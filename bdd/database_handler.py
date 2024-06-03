@@ -1,5 +1,6 @@
 import os
 import sqlite3
+from bdd.databaseDDL import ALL_TABLES
 
 
 class DatabaseHandler:
@@ -17,23 +18,14 @@ class DatabaseHandler:
         )  # Set default return to Dictionnary instead of List
 
     def create_database(self) -> None:
-        """Create all tables for the database"""
+        """Create all tables needed for the database"""
 
         cursor = self.conn.cursor()
-        query_models = "CREATE TABLE IF NOT EXISTS Models (\
-                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
-                    name TEXT NOT NULL,\
-                    path TEXT NOT NULL\
-                    );"
-        cursor.execute(query_models)
 
-        query_textures = "CREATE TABLE IF NOT EXISTS Textures (\
-                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
-                    asset_id INTEGER REFERENCES Models (id) NOT NULL,\
-                    type TEXT NOT NULL,\
-                    path TEXT NOT NULL\
-                    );"
-        cursor.execute(query_textures)
+        for table in ALL_TABLES:
+            query = table
+            cursor.execute(query)
+
         cursor.close()
         self.conn.commit()
 
@@ -44,6 +36,14 @@ class DatabaseHandler:
 
     def add_asset(self, name: str, path: str) -> None:
         """Add new 3D asset into the 3DModels table"""
+
+        if not name:  # Check if name is None or empty
+            print("Please use a valid Name")
+            return
+
+        if not path:  # Check if name is None or empty
+            print("Please use a valid Path")
+            return
 
         cursor = self.conn.cursor()
         query = "INSERT INTO Models (name, path) VALUES (?, ?)"
