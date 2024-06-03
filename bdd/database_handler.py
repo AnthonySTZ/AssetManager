@@ -34,25 +34,63 @@ class DatabaseHandler:
 
         self.conn.close()
 
-    def add_asset(self, name: str, path: str) -> None:
-        """Add new 3D asset into the 3DModels table"""
+    def insert_new_row(self, table: str, datas: dict) -> None:
+        """Insert datas in table"""
 
-        if not name:  # Check if name is None or empty
-            print("Please use a valid Name")
-            return
-
-        if not path:  # Check if name is None or empty
-            print("Please use a valid Path")
-            return
-
+        data_names = f"({", ".join(datas.keys())})"  # Ex: (name, path)
+        datas_column = f"({",".join(["?" for i in datas.keys()])})"  # Ex: (?, ?)
+        
         cursor = self.conn.cursor()
-        query = "INSERT INTO Models (name, path) VALUES (?, ?)"
-        cursor.execute(
-            query,
-            (
-                name,
-                path,
-            ),
-        )
+        query = f"INSERT INTO {table} {data_names} VALUES {datas_column}"
+        cursor.execute(query, tuple(datas.values()))
         cursor.close()
         self.conn.commit()
+
+    def show_all_rows(self, table: str) -> None:
+        """Print all rows for a given table"""
+
+        cursor = self.conn.cursor()
+        query = f"SELECT * FROM {table}"
+        cursor.execute(query)
+        response = cursor.fetchall()
+
+        print(f"---{table} TABLE---")
+        if len(response) == 0:
+            print("Nothing here :)")
+
+        response = map(dict, response)
+        for row in response:
+            print(row)
+        print("------\n")
+
+    def add_asset(self, name: str, path: str) -> None:
+        """Add new 3D asset into the Models table"""
+
+        row_properties = {"name": name, "path": path}
+        self.insert_new_row("Models", row_properties)
+
+    def add_texture(self, name: str, path: str) -> None:
+        """Add new texture into the Textures table"""
+
+        row_properties = {"name": name, "path": path}
+        self.insert_new_row("Textures", row_properties)
+
+    def add_materials(self, name: str, maps: dict) -> None:
+        """Add new Material into the Materials table"""
+
+        row_properties = {"name": name}
+        for key, tex in maps.items():
+            if tex is not None:
+                row_properties[key] = tex
+
+        self.insert_new_row("Materials", row_properties)
+
+    def link_material(self, asset_id: int, material_id: int) -> None:
+
+        cursor = self.conn.cursor()
+        query = f"UPDATE Models SET material_id = ? WHERE id = ?;"
+        cursor.execute(query, (material_id, asset_id,))
+        cursor.close()
+        self.conn.commit()
+        
+
