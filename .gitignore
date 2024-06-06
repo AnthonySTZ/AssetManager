@@ -1,2 +1,4 @@
 Pipfile
 assets.db
+tmp.py
+__pycache__

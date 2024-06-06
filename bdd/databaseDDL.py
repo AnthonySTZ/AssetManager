@@ -1,5 +1,5 @@
 """
-Constant of the SQL scripts for creating all SQL tables
+Constants SQL scripts for creating all SQL tables
 """
 
 TABLE_MODELS = "CREATE TABLE IF NOT EXISTS Models (\

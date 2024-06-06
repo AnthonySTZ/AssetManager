@@ -1,3 +1,8 @@
+"""
+Handler for the files database
+"""
+
+
 import os
 import sqlite3
 from bdd.databaseDDL import ALL_TABLES
@@ -36,6 +41,8 @@ class DatabaseHandler:
 
     def insert_new_row(self, table: str, datas: dict) -> None:
         """Insert datas in table"""
+
+        # datas = {"name": "Nom", "path": "/home/blabla"}
 
         data_names = f"({", ".join(datas.keys())})"  # Ex: (name, path)
         datas_column = f"({",".join(["?" for i in datas.keys()])})"  # Ex: (?, ?)
