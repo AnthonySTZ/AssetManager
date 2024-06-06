@@ -17,7 +17,7 @@
    <item>
     <layout class="QGridLayout" name="gridLayout">
      <item row="4" column="2">
-      <widget class="QComboBox" name="comboBox_4">
+      <widget class="QComboBox" name="normal_cb">
        <item>
         <property name="text">
          <string>None</string>
@@ -56,7 +56,7 @@
       </widget>
      </item>
      <item row="1" column="2">
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="diffuse_cb">
        <item>
         <property name="text">
          <string>None</string>
@@ -75,7 +75,7 @@
       </widget>
      </item>
      <item row="2" column="2">
-      <widget class="QComboBox" name="comboBox_2">
+      <widget class="QComboBox" name="specular_cb">
        <item>
         <property name="text">
          <string>None</string>
@@ -84,7 +84,7 @@
       </widget>
      </item>
      <item row="3" column="2">
-      <widget class="QComboBox" name="comboBox_3">
+      <widget class="QComboBox" name="roughness_cb">
        <item>
         <property name="text">
          <string>None</string>
@@ -93,7 +93,7 @@
       </widget>
      </item>
      <item row="5" column="2">
-      <widget class="QComboBox" name="comboBox_5">
+      <widget class="QComboBox" name="displacement_cb">
        <item>
         <property name="text">
          <string>None</string>

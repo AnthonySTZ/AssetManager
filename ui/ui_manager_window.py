@@ -15,9 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QMainWindow,
-    QPushButton, QScrollBar, QSizePolicy, QSpacerItem,
-    QTextEdit, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QGridLayout, QHBoxLayout,
+    QListWidget, QListWidgetItem, QMainWindow, QPushButton,
+    QSizePolicy, QSpacerItem, QTextEdit, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -26,8 +27,8 @@ class Ui_MainWindow(object):
         MainWindow.resize(1123, 602)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.gridLayout = QGridLayout(self.centralwidget)
-        self.gridLayout.setObjectName(u"gridLayout")
+        self.verticalLayout = QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
         self.gridLayout_2 = QGridLayout()
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.link_btn = QPushButton(self.centralwidget)
@@ -64,22 +65,21 @@ class Ui_MainWindow(object):
         self.widget.setObjectName(u"widget")
         self.horizontalLayout = QHBoxLayout(self.widget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.items_lw = QListWidget(self.widget)
+        self.items_lw.setObjectName(u"items_lw")
+        self.items_lw.setFocusPolicy(Qt.NoFocus)
+        self.items_lw.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.items_lw.setAutoScroll(True)
+        self.items_lw.setSelectionMode(QAbstractItemView.NoSelection)
 
-        self.horizontalLayout.addItem(self.horizontalSpacer_2)
-
-        self.verticalScrollBar = QScrollBar(self.widget)
-        self.verticalScrollBar.setObjectName(u"verticalScrollBar")
-        self.verticalScrollBar.setOrientation(Qt.Vertical)
-
-        self.horizontalLayout.addWidget(self.verticalScrollBar)
+        self.horizontalLayout.addWidget(self.items_lw)
 
 
         self.gridLayout_2.addWidget(self.widget, 2, 0, 1, 6)
 
         self.gridLayout_2.setRowStretch(2, 1)
 
-        self.gridLayout.addLayout(self.gridLayout_2, 0, 0, 1, 1)
+        self.verticalLayout.addLayout(self.gridLayout_2)
 
         MainWindow.setCentralWidget(self.centralwidget)
 

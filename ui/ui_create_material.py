@@ -28,11 +28,11 @@ class Ui_Dialog(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.comboBox_4 = QComboBox(Dialog)
-        self.comboBox_4.addItem("")
-        self.comboBox_4.setObjectName(u"comboBox_4")
+        self.normal_cb = QComboBox(Dialog)
+        self.normal_cb.addItem("")
+        self.normal_cb.setObjectName(u"normal_cb")
 
-        self.gridLayout.addWidget(self.comboBox_4, 4, 2, 1, 1)
+        self.gridLayout.addWidget(self.normal_cb, 4, 2, 1, 1)
 
         self.label = QLabel(Dialog)
         self.label.setObjectName(u"label")
@@ -52,11 +52,11 @@ class Ui_Dialog(object):
 
         self.gridLayout.addWidget(self.label_5, 5, 0, 1, 1)
 
-        self.comboBox = QComboBox(Dialog)
-        self.comboBox.addItem("")
-        self.comboBox.setObjectName(u"comboBox")
+        self.diffuse_cb = QComboBox(Dialog)
+        self.diffuse_cb.addItem("")
+        self.diffuse_cb.setObjectName(u"diffuse_cb")
 
-        self.gridLayout.addWidget(self.comboBox, 1, 2, 1, 1)
+        self.gridLayout.addWidget(self.diffuse_cb, 1, 2, 1, 1)
 
         self.label_4 = QLabel(Dialog)
         self.label_4.setObjectName(u"label_4")
@@ -64,23 +64,23 @@ class Ui_Dialog(object):
 
         self.gridLayout.addWidget(self.label_4, 4, 0, 1, 1)
 
-        self.comboBox_2 = QComboBox(Dialog)
-        self.comboBox_2.addItem("")
-        self.comboBox_2.setObjectName(u"comboBox_2")
+        self.specular_cb = QComboBox(Dialog)
+        self.specular_cb.addItem("")
+        self.specular_cb.setObjectName(u"specular_cb")
 
-        self.gridLayout.addWidget(self.comboBox_2, 2, 2, 1, 1)
+        self.gridLayout.addWidget(self.specular_cb, 2, 2, 1, 1)
 
-        self.comboBox_3 = QComboBox(Dialog)
-        self.comboBox_3.addItem("")
-        self.comboBox_3.setObjectName(u"comboBox_3")
+        self.roughness_cb = QComboBox(Dialog)
+        self.roughness_cb.addItem("")
+        self.roughness_cb.setObjectName(u"roughness_cb")
 
-        self.gridLayout.addWidget(self.comboBox_3, 3, 2, 1, 1)
+        self.gridLayout.addWidget(self.roughness_cb, 3, 2, 1, 1)
 
-        self.comboBox_5 = QComboBox(Dialog)
-        self.comboBox_5.addItem("")
-        self.comboBox_5.setObjectName(u"comboBox_5")
+        self.displacement_cb = QComboBox(Dialog)
+        self.displacement_cb.addItem("")
+        self.displacement_cb.setObjectName(u"displacement_cb")
 
-        self.gridLayout.addWidget(self.comboBox_5, 5, 2, 1, 1)
+        self.gridLayout.addWidget(self.displacement_cb, 5, 2, 1, 1)
 
         self.label_2 = QLabel(Dialog)
         self.label_2.setObjectName(u"label_2")
@@ -120,19 +120,19 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
-        self.comboBox_4.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
+        self.normal_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
         self.label.setText(QCoreApplication.translate("Dialog", u"Diffuse :", None))
         self.label_3.setText(QCoreApplication.translate("Dialog", u"Roughness :", None))
         self.label_5.setText(QCoreApplication.translate("Dialog", u"Displacement :", None))
-        self.comboBox.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
+        self.diffuse_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
         self.label_4.setText(QCoreApplication.translate("Dialog", u"Normal :", None))
-        self.comboBox_2.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
+        self.specular_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
-        self.comboBox_3.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
+        self.roughness_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
-        self.comboBox_5.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
+        self.displacement_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
         self.label_2.setText(QCoreApplication.translate("Dialog", u"Specular :", None))
         self.cancel_btn.setText(QCoreApplication.translate("Dialog", u"Cancel", None))
