@@ -2,10 +2,11 @@
 Scripts for Handling all UI elements
 """
 
-from PySide6.QtWidgets import QMainWindow, QDialog, QTextEdit, QPushButton, QComboBox
+from PySide6.QtWidgets import QMainWindow, QDialog, QTextEdit, QComboBox
 from ui.ui_manager_window import Ui_MainWindow
 from ui.ui_import_asset import Ui_Dialog as UiImportAssetDialog
 from ui.ui_import_texture import Ui_Dialog as UiImportTextureDialog
+from ui.ui_create_material import Ui_Dialog as UiCreateMaterialDialog
 
 
 class DialogTemplate(QDialog):
@@ -50,14 +51,18 @@ class MainWindow(QMainWindow):
 
     def import_asset_event(self) -> None:
         print("import asset !!!!")
-        self.show_dialog(ImportAssetDialog)
+        infos = self.show_dialog(ImportAssetDialog)
+        print(infos)
 
     def import_texture_event(self) -> None:
         print("import texture !!!!")
-        self.show_dialog(ImportTextureDialog)
+        infos = self.show_dialog(ImportTextureDialog)
+        print(infos)
 
     def create_material_event(self) -> None:
         print("create material !!!!")
+        infos = self.show_dialog(CreateMaterialDialog)
+        print(infos)
 
     def link_material_event(self) -> None:
         print("link material !!!!")
@@ -76,8 +81,6 @@ class MainWindow(QMainWindow):
         comboboxes = dialog.findChildren(QComboBox)
         for obj in comboboxes:
             objects_dict[obj.objectName()] = obj.currentIndex()
-
-        print(objects_dict)
 
         return objects_dict
 
@@ -109,6 +112,18 @@ class ImportTextureDialog(DialogTemplate):
 
         if self.ui.path_te.toPlainText() == "":
             print("Please enter a valid Path")
+            return False
+
+        return True
+
+
+class CreateMaterialDialog(DialogTemplate):
+    def __init__(self, parent=None) -> None:
+        super().__init__(UiCreateMaterialDialog, parent)
+
+    def everything_is_correct(self) -> bool:
+        if self.ui.name_te.toPlainText() == "":
+            print("Please enter a valid Name")
             return False
 
         return True
