@@ -25,37 +25,50 @@ class Ui_Form(object):
         Form.resize(200, 250)
         Form.setMinimumSize(QSize(200, 250))
         Form.setMaximumSize(QSize(200, 250))
-        Form.setStyleSheet(u"QGridLayout{\n"
-"	border: 4px solid black;\n"
-"}")
+        Form.setMouseTracking(False)
+        Form.setStyleSheet(u"")
         self.horizontalLayout = QHBoxLayout(Form)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(5, 5, 5, 5)
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
+        self.frame.setMouseTracking(True)
         self.frame.setStyleSheet(u".QFrame{\n"
 "\n"
 "	border: 2px solid rgb(119, 118, 123);\n"
 "\n"
-"}")
+"}\n"
+".QFrame:hover{\n"
+"	border: 2px solid rgb(255, 190, 111);\n"
+"}\n"
+"")
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Plain)
         self.frame.setLineWidth(0)
         self.frame.setMidLineWidth(0)
         self.gridLayout = QGridLayout(self.frame)
+        self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.label = QLabel(self.frame)
-        self.label.setObjectName(u"label")
-        self.label.setAlignment(Qt.AlignCenter)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.img_l = QLabel(self.frame)
+        self.img_l.setObjectName(u"img_l")
+        self.img_l.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.img_l, 1, 0, 1, 1)
 
-        self.label_2 = QLabel(self.frame)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setAlignment(Qt.AlignCenter)
+        self.name_l = QLabel(self.frame)
+        self.name_l.setObjectName(u"name_l")
+        self.name_l.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.name_l, 2, 0, 1, 1)
+
+        self.type_l = QLabel(self.frame)
+        self.type_l.setObjectName(u"type_l")
+        self.type_l.setMaximumSize(QSize(16777215, 20))
+        self.type_l.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.type_l, 0, 0, 1, 1)
 
 
         self.horizontalLayout.addWidget(self.frame)
@@ -68,7 +81,8 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.label.setText(QCoreApplication.translate("Form", u"IMG", None))
-        self.label_2.setText(QCoreApplication.translate("Form", u"Name", None))
+        self.img_l.setText(QCoreApplication.translate("Form", u"IMG", None))
+        self.name_l.setText(QCoreApplication.translate("Form", u"Name", None))
+        self.type_l.setText(QCoreApplication.translate("Form", u"Type :", None))
     # retranslateUi
 

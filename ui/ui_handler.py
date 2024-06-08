@@ -19,6 +19,8 @@ from ui.ui_import_texture import Ui_Dialog as UiImportTextureDialog
 from ui.ui_create_material import Ui_Dialog as UiCreateMaterialDialog
 from ui.ui_item_widget import Ui_Form as UiItemWidget
 
+from bdd.database_handler import DatabaseHandler
+
 
 class DialogTemplate(QDialog):
     def __init__(self, ui, parent=None) -> None:
@@ -47,10 +49,16 @@ class DialogTemplate(QDialog):
 
 
 class ItemWidget(QWidget):
-    def __init__(self) -> None:
+    def __init__(self, item=None) -> None:
         super().__init__()
         self.ui = UiItemWidget()
         self.ui.setupUi(self)
+
+        if item is None:
+            return
+
+        self.ui.type_l.setText(item["type"])
+        self.ui.name_l.setText(item["name"])
 
 
 class MainWindow(QMainWindow):
@@ -61,18 +69,7 @@ class MainWindow(QMainWindow):
 
         self.init_buttons()
         self.show()
-        self.items = [
-            "item_1",
-            "item_2",
-            "item_3",
-            "item_4",
-            "item_5",
-            "item_6",
-            "item_7",
-            "item_8",
-        ]
-
-        self.add_all_items()
+        self.init_database()
 
     def init_buttons(self) -> None:
         self.ui.asset_btn.clicked.connect(self.import_asset_event)
@@ -80,10 +77,23 @@ class MainWindow(QMainWindow):
         self.ui.material_btn.clicked.connect(self.create_material_event)
         self.ui.link_btn.clicked.connect(self.link_material_event)
 
+    def init_database(self) -> None:
+        self.database_handler = DatabaseHandler("assets.db")
+        self.items = self.get_all_items()
+        self.add_all_items()
+
+    def closeEvent(self, event) -> None:
+        self.database_handler.close_connection()
+
     def import_asset_event(self) -> None:
         print("import asset !!!!")
         infos = self.show_dialog(ImportAssetDialog)
         print(infos)
+        if infos == {}:
+            return
+
+        self.database_handler.add_asset(infos["name_te"], infos["path_te"])
+        self.refresh_items()
 
     def import_texture_event(self) -> None:
         print("import texture !!!!")
@@ -99,7 +109,7 @@ class MainWindow(QMainWindow):
         print("link material !!!!")
 
     def show_dialog(self, dialog_class: DialogTemplate) -> dict:
-        dialog = dialog_class(self)
+        dialog = dialog_class(self.database_handler, self)
         dialog.exec()
         if dialog.status != True:  # Return Empty dict if Dialog cancel or close
             return {}
@@ -121,7 +131,7 @@ class MainWindow(QMainWindow):
         list_widget.addItem(item)
         list_widget.setItemWidget(item, widget)
 
-    def add_item_row(self) -> None:
+    def add_item_row(self, item) -> None:
         list_widget = QListWidget()
         list_widget.setFlow(QListWidget.LeftToRight)
         list_widget.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
@@ -138,14 +148,14 @@ class MainWindow(QMainWindow):
         widget_width = ItemWidget().width()
         return (last_row_item_nb + 1) * widget_width > self.ui.items_lw.width()
 
-    def add_item(self) -> None:
+    def add_item(self, item) -> None:
         if self.ui.items_lw.count() == 0:
-            self.add_item_row()
+            self.add_item_row(item)
 
         elif self.is_item_row_full():
-            self.add_item_row()
+            self.add_item_row(item)
 
-        item_widget = ItemWidget()
+        item_widget = ItemWidget(item)
         last_row_item = self.ui.items_lw.item(self.ui.items_lw.count() - 1)
         self.add_item_to_listWidget(
             self.ui.items_lw.itemWidget(last_row_item), item_widget
@@ -153,24 +163,32 @@ class MainWindow(QMainWindow):
 
     def add_all_items(self) -> None:
         for item in self.items:
-            self.add_item()
+            self.add_item(item)
 
-    def clear_all_items(self) -> None:
+    def get_all_items(self) -> list[dict]:
+        self.all_assets = self.database_handler.get_all_item_of_table("Models")
+        self.all_textures = self.database_handler.get_all_item_of_table("Textures")
+        self.all_materials = self.database_handler.get_all_item_of_table("Materials")
+
+        return self.all_assets + self.all_textures + self.all_materials
+
+    def refresh_items(self) -> None:
+        self.items = self.get_all_items()
         self.ui.items_lw.clear()
         self.add_all_items()
 
     def resizeEvent(self, event) -> None:
-        print(self.ui.items_lw.width())
         QMainWindow.resizeEvent(self, event)
         try:  # Check if resize is called before the window is created
-            self.clear_all_items()
+            self.refresh_items()
         except AttributeError:
             pass
 
 
 class ImportAssetDialog(DialogTemplate):
-    def __init__(self, parent=None) -> None:
+    def __init__(self, database: DatabaseHandler, parent=None) -> None:
         super().__init__(UiImportAssetDialog, parent)
+        self.database = database
 
     def everything_is_correct(self) -> bool:
         if self.ui.name_te.toPlainText() == "":
@@ -181,11 +199,24 @@ class ImportAssetDialog(DialogTemplate):
             print("Please enter a valid Path")
             return False
 
+        if self.path_already_exist():
+            print("Path already exists")
+            return False
+
         return True
+
+    def path_already_exist(self) -> bool:
+        assets = self.database.get_all_item_of_table("Models")
+        path = self.ui.path_te.toPlainText()
+        for item in assets:
+            if item["path"] == path:
+                return True
+
+        return False
 
 
 class ImportTextureDialog(DialogTemplate):
-    def __init__(self, parent=None) -> None:
+    def __init__(self, database, parent=None) -> None:
         super().__init__(UiImportTextureDialog, parent)
 
     def everything_is_correct(self) -> bool:
@@ -201,7 +232,7 @@ class ImportTextureDialog(DialogTemplate):
 
 
 class CreateMaterialDialog(DialogTemplate):
-    def __init__(self, parent=None) -> None:
+    def __init__(self, database, parent=None) -> None:
         super().__init__(UiCreateMaterialDialog, parent)
 
     def everything_is_correct(self) -> bool:

@@ -101,3 +101,12 @@ class DatabaseHandler:
         self.conn.commit()
         
 
+    def get_all_item_of_table(self, table: str)->dict:
+        cursor = self.conn.cursor()
+        query = f"SELECT * FROM {table}"
+        cursor.execute(query)
+        response = cursor.fetchall()
+        response = list(map(dict, response))
+        for item in response:
+            item["type"] = table
+        return response

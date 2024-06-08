@@ -60,6 +60,12 @@
       </item>
       <item row="0" column="5">
        <widget class="QTextEdit" name="search_te">
+        <property name="minimumSize">
+         <size>
+          <width>350</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>350</width>
@@ -73,6 +79,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QListWidget" name="items_lw">
+           <property name="mouseTracking">
+            <bool>false</bool>
+           </property>
            <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
            </property>
@@ -81,7 +90,9 @@
 
 	border: 0;
 
-}</string>
+}
+
+</string>
            </property>
            <property name="horizontalScrollBarPolicy">
             <enum>Qt::ScrollBarAlwaysOff</enum>

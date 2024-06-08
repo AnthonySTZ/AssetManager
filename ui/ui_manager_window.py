@@ -57,6 +57,7 @@ class Ui_MainWindow(object):
 
         self.search_te = QTextEdit(self.centralwidget)
         self.search_te.setObjectName(u"search_te")
+        self.search_te.setMinimumSize(QSize(350, 0))
         self.search_te.setMaximumSize(QSize(350, 30))
 
         self.gridLayout_2.addWidget(self.search_te, 0, 5, 1, 1)
@@ -67,12 +68,15 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.items_lw = QListWidget(self.widget)
         self.items_lw.setObjectName(u"items_lw")
+        self.items_lw.setMouseTracking(False)
         self.items_lw.setFocusPolicy(Qt.NoFocus)
         self.items_lw.setStyleSheet(u".QListWidget{\n"
 "\n"
 "	border: 0;\n"
 "\n"
-"}")
+"}\n"
+"\n"
+"")
         self.items_lw.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.items_lw.setAutoScroll(True)
         self.items_lw.setSelectionMode(QAbstractItemView.NoSelection)

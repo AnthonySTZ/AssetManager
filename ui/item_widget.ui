@@ -22,13 +22,14 @@
     <height>250</height>
    </size>
   </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QGridLayout{
-	border: 4px solid black;
-}</string>
+   <string notr="true"/>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
@@ -48,12 +49,19 @@
    </property>
    <item>
     <widget class="QFrame" name="frame">
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
      <property name="styleSheet">
       <string notr="true">.QFrame{
 
 	border: 2px solid rgb(119, 118, 123);
 
-}</string>
+}
+.QFrame:hover{
+	border: 2px solid rgb(255, 190, 111);
+}
+</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -68,8 +76,23 @@
       <number>0</number>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item row="1" column="0">
+       <widget class="QLabel" name="img_l">
         <property name="text">
          <string>IMG</string>
         </property>
@@ -78,10 +101,26 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
+      <item row="2" column="0">
+       <widget class="QLabel" name="name_l">
         <property name="text">
          <string>Name</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="type_l">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Type :</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
