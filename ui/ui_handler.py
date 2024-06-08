@@ -61,9 +61,18 @@ class MainWindow(QMainWindow):
 
         self.init_buttons()
         self.show()
+        self.items = [
+            "item_1",
+            "item_2",
+            "item_3",
+            "item_4",
+            "item_5",
+            "item_6",
+            "item_7",
+            "item_8",
+        ]
 
-        for i in range(8):
-            self.add_item()
+        self.add_all_items()
 
     def init_buttons(self) -> None:
         self.ui.asset_btn.clicked.connect(self.import_asset_event)
@@ -142,9 +151,21 @@ class MainWindow(QMainWindow):
             self.ui.items_lw.itemWidget(last_row_item), item_widget
         )
 
-        """print(self.ui.items_lw.item(self.ui.items_lw.count() - 1))
-        print(item_widget.size())
-        print(self.ui.items_lw.width())"""
+    def add_all_items(self) -> None:
+        for item in self.items:
+            self.add_item()
+
+    def clear_all_items(self) -> None:
+        self.ui.items_lw.clear()
+        self.add_all_items()
+
+    def resizeEvent(self, event) -> None:
+        print(self.ui.items_lw.width())
+        QMainWindow.resizeEvent(self, event)
+        try:  # Check if resize is called before the window is created
+            self.clear_all_items()
+        except AttributeError:
+            pass
 
 
 class ImportAssetDialog(DialogTemplate):
