@@ -101,7 +101,7 @@ class DatabaseHandler:
         self.conn.commit()
         
 
-    def get_all_item_of_table(self, table: str)->dict:
+    def get_all_item_of_table(self, table: str)->list:
         cursor = self.conn.cursor()
         query = f"SELECT * FROM {table}"
         cursor.execute(query)

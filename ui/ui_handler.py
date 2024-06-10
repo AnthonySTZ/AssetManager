@@ -54,11 +54,30 @@ class ItemWidget(QWidget):
         self.ui = UiItemWidget()
         self.ui.setupUi(self)
 
-        if item is None:
+        self.item = item
+        self.init_texts()
+
+    def init_texts(self) -> None:
+        if self.item is None:
             return
 
-        self.ui.type_l.setText(item["type"])
-        self.ui.name_l.setText(item["name"])
+        self.ui.type_l.setText(self.item["type"])
+        self.ui.name_l.setText(self.item["name"])
+
+        self.init_colors()
+
+    def init_colors(self) -> None:
+        if self.item["type"] == "Models":
+            self.ui.type_l.setStyleSheet("background-color: rgb(100, 0, 0);")
+        elif self.item["type"] == "Materials":
+            self.ui.type_l.setStyleSheet("background-color: rgb(0, 100, 0);")
+        else:
+            self.ui.type_l.setStyleSheet("background-color: rgb(0, 0, 100);")
+
+    def mouseReleaseEvent(self, event) -> None:
+        if self.item is None:
+            return
+        print(self.item["name"])
 
 
 class MainWindow(QMainWindow):
@@ -75,38 +94,70 @@ class MainWindow(QMainWindow):
         self.ui.asset_btn.clicked.connect(self.import_asset_event)
         self.ui.texture_btn.clicked.connect(self.import_texture_event)
         self.ui.material_btn.clicked.connect(self.create_material_event)
-        self.ui.link_btn.clicked.connect(self.link_material_event)
 
     def init_database(self) -> None:
         self.database_handler = DatabaseHandler("assets.db")
-        self.items = self.get_all_items()
-        self.add_all_items()
+        self.refresh_items(updateItems=True)
 
     def closeEvent(self, event) -> None:
         self.database_handler.close_connection()
 
     def import_asset_event(self) -> None:
-        print("import asset !!!!")
         infos = self.show_dialog(ImportAssetDialog)
-        print(infos)
-        if infos == {}:
+        self.import_asset(infos)
+
+    def import_asset(self, asset_infos: dict) -> None:
+        if asset_infos == {}:
             return
 
-        self.database_handler.add_asset(infos["name_te"], infos["path_te"])
-        self.refresh_items()
+        self.database_handler.add_asset(asset_infos["name_te"], asset_infos["path_te"])
+        self.refresh_items(updateItems=True)
 
     def import_texture_event(self) -> None:
-        print("import texture !!!!")
         infos = self.show_dialog(ImportTextureDialog)
-        print(infos)
+        self.import_texture(infos)
+
+    def import_texture(self, texture_infos: dict) -> None:
+        if texture_infos == {}:
+            return
+
+        self.database_handler.add_texture(
+            texture_infos["name_te"], texture_infos["path_te"]
+        )
+        self.refresh_items(updateItems=True)
 
     def create_material_event(self) -> None:
-        print("create material !!!!")
         infos = self.show_dialog(CreateMaterialDialog)
-        print(infos)
+        self.create_material(infos)
 
-    def link_material_event(self) -> None:
-        print("link material !!!!")
+    def create_material(self, material_infos: dict) -> None:
+        if material_infos == {}:
+            return
+        textures = self.database_handler.get_all_item_of_table("Textures")
+        map_dict = {
+            "diffuse_id": None,
+            "specular_id": None,
+            "roughness_id": None,
+            "metalness_id": None,
+            "normal_id": None,
+            "displacement_id": None,
+        }
+        dict_texture_name = {
+            "diffuse_cb": "diffuse_id",
+            "specular_cb": "specular_id",
+            "roughness_cb": "roughness_id",
+            "metalness_cb": "metalness_id",
+            "normal_cb": "normal_id",
+            "displacement_cb": "displacement_id",
+        }
+
+        for input_name, texture_name in dict_texture_name.items():
+            texture_number = material_infos[input_name]
+            if texture_number > 0:
+                map_dict[texture_name] = textures[texture_number - 1]["id"]
+
+        self.database_handler.add_materials(material_infos["name_te"], map_dict)
+        self.refresh_items(updateItems=True)
 
     def show_dialog(self, dialog_class: DialogTemplate) -> dict:
         dialog = dialog_class(self.database_handler, self)
@@ -172,15 +223,16 @@ class MainWindow(QMainWindow):
 
         return self.all_assets + self.all_textures + self.all_materials
 
-    def refresh_items(self) -> None:
-        self.items = self.get_all_items()
+    def refresh_items(self, updateItems: bool) -> None:
+        if updateItems:
+            self.items = self.get_all_items()
         self.ui.items_lw.clear()
         self.add_all_items()
 
     def resizeEvent(self, event) -> None:
         QMainWindow.resizeEvent(self, event)
         try:  # Check if resize is called before the window is created
-            self.refresh_items()
+            self.refresh_items(updateItems=False)
         except AttributeError:
             pass
 
@@ -218,6 +270,7 @@ class ImportAssetDialog(DialogTemplate):
 class ImportTextureDialog(DialogTemplate):
     def __init__(self, database, parent=None) -> None:
         super().__init__(UiImportTextureDialog, parent)
+        self.database = database
 
     def everything_is_correct(self) -> bool:
         if self.ui.name_te.toPlainText() == "":
@@ -228,12 +281,27 @@ class ImportTextureDialog(DialogTemplate):
             print("Please enter a valid Path")
             return False
 
+        if self.path_already_exist():
+            print("Path already exists")
+            return False
+
         return True
+
+    def path_already_exist(self) -> bool:
+        textures = self.database.get_all_item_of_table("Textures")
+        path = self.ui.path_te.toPlainText()
+        for item in textures:
+            if item["path"] == path:
+                return True
+
+        return False
 
 
 class CreateMaterialDialog(DialogTemplate):
     def __init__(self, database, parent=None) -> None:
         super().__init__(UiCreateMaterialDialog, parent)
+        self.database = database
+        self.get_all_textures()
 
     def everything_is_correct(self) -> bool:
         if self.ui.name_te.toPlainText() == "":
@@ -241,3 +309,9 @@ class CreateMaterialDialog(DialogTemplate):
             return False
 
         return True
+
+    def get_all_textures(self) -> None:
+        textures = self.database.get_all_item_of_table("Textures")
+        for texture in textures:
+            for cb in self.ui.mainFrame.findChildren(QComboBox):
+                cb.addItem(texture["name"])

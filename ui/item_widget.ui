@@ -49,13 +49,19 @@
    </property>
    <item>
     <widget class="QFrame" name="frame">
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="mouseTracking">
       <bool>true</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">.QFrame{
-
+      <string notr="true">.QLabel{
+	color: rgb(246, 245, 244);
+}
+.QFrame{
 	border: 2px solid rgb(119, 118, 123);
+	background-color: rgb(36, 36, 36);
 
 }
 .QFrame:hover{
@@ -120,7 +126,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Type :</string>
+         <string>Type</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

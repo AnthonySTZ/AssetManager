@@ -33,10 +33,14 @@ class Ui_Form(object):
         self.horizontalLayout.setContentsMargins(5, 5, 5, 5)
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
+        self.frame.setCursor(QCursor(Qt.PointingHandCursor))
         self.frame.setMouseTracking(True)
-        self.frame.setStyleSheet(u".QFrame{\n"
-"\n"
+        self.frame.setStyleSheet(u".QLabel{\n"
+"	color: rgb(246, 245, 244);\n"
+"}\n"
+".QFrame{\n"
 "	border: 2px solid rgb(119, 118, 123);\n"
+"	background-color: rgb(36, 36, 36);\n"
 "\n"
 "}\n"
 ".QFrame:hover{\n"

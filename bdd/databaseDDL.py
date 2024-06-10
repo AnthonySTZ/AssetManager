@@ -11,7 +11,7 @@ TABLE_MODELS = "CREATE TABLE IF NOT EXISTS Models (\
 
 TABLE_TEXTURES = "CREATE TABLE IF NOT EXISTS Textures (\
                     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
-                    name TEXT NOT NULL,\
+                    name TEXT NOT NULL UNIQUE,\
                     path TEXT NOT NULL\
                     );"
 
