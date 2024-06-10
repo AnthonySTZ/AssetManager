@@ -39,7 +39,7 @@ class DatabaseHandler:
 
         self.conn.close()
 
-    def insert_new_row(self, table: str, datas: dict) -> None:
+    def insert_new_row(self, table: str, datas: dict) -> int:
         """Insert datas in table"""
 
         # datas = {"name": "Nom", "path": "/home/blabla"}
@@ -50,8 +50,10 @@ class DatabaseHandler:
         cursor = self.conn.cursor()
         query = f"INSERT INTO {table} {data_names} VALUES {datas_column}"
         cursor.execute(query, tuple(datas.values()))
+        id = cursor.lastrowid
         cursor.close()
         self.conn.commit()
+        return id
 
     def show_all_rows(self, table: str) -> None:
         """Print all rows for a given table"""
@@ -74,7 +76,8 @@ class DatabaseHandler:
         """Add new 3D asset into the Models table"""
 
         row_properties = {"name": name, "path": path}
-        self.insert_new_row("Models", row_properties)
+        asset_id = self.insert_new_row("Models", row_properties)
+        return asset_id
 
     def add_texture(self, name: str, path: str) -> None:
         """Add new texture into the Textures table"""

@@ -25,11 +25,8 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1123, 602)
-        MainWindow.setStyleSheet(u".QMainWindow{\n"
-"\n"
-"\n"
-"	background: rgb(42, 42, 42);\n"
-"\n"
+        MainWindow.setStyleSheet(u"QMainWindow{\n"
+"	background-color: rgb(42, 42, 42);\n"
 "}")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -65,11 +62,23 @@ class Ui_MainWindow(object):
 
         self.texture_btn = QPushButton(self.centralwidget)
         self.texture_btn.setObjectName(u"texture_btn")
+        self.texture_btn.setStyleSheet(u"QPushButton{\n"
+"\n"
+"	color: rgb(220, 220, 220);\n"
+"	background-color: rgb(40, 40, 40);\n"
+"\n"
+"}")
 
         self.gridLayout_2.addWidget(self.texture_btn, 0, 1, 1, 1)
 
         self.asset_btn = QPushButton(self.centralwidget)
         self.asset_btn.setObjectName(u"asset_btn")
+        self.asset_btn.setStyleSheet(u"QPushButton{\n"
+"\n"
+"	color: rgb(220, 220, 220);\n"
+"	background-color: rgb(40, 40, 40);\n"
+"\n"
+"}")
 
         self.gridLayout_2.addWidget(self.asset_btn, 0, 0, 1, 1)
 
@@ -77,6 +86,17 @@ class Ui_MainWindow(object):
         self.search_te.setObjectName(u"search_te")
         self.search_te.setMinimumSize(QSize(350, 0))
         self.search_te.setMaximumSize(QSize(350, 30))
+        self.search_te.setStyleSheet(u"QTextEdit {\n"
+"\n"
+"	color: rgb(246, 245, 244);\n"
+"	background-color: rgb(52, 52, 52);\n"
+"	border : 1px solid black;\n"
+"	border-radius: 15px;\n"
+"	padding-left : 8px;\n"
+"\n"
+"}")
+        self.search_te.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.search_te.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
         self.gridLayout_2.addWidget(self.search_te, 0, 4, 1, 1)
 
@@ -86,6 +106,12 @@ class Ui_MainWindow(object):
 
         self.material_btn = QPushButton(self.centralwidget)
         self.material_btn.setObjectName(u"material_btn")
+        self.material_btn.setStyleSheet(u"QPushButton{\n"
+"\n"
+"	color: rgb(220, 220, 220);\n"
+"	background-color: rgb(40, 40, 40);\n"
+"\n"
+"}")
 
         self.gridLayout_2.addWidget(self.material_btn, 0, 2, 1, 1)
 
@@ -103,6 +129,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.texture_btn.setText(QCoreApplication.translate("MainWindow", u"Import Texture", None))
         self.asset_btn.setText(QCoreApplication.translate("MainWindow", u"Import Asset", None))
+        self.search_te.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Search...", None))
         self.material_btn.setText(QCoreApplication.translate("MainWindow", u"Create Material", None))
     # retranslateUi
 

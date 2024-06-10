@@ -14,11 +14,8 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">.QMainWindow{
-
-
-	background: rgb(42, 42, 42);
-
+   <string notr="true">QMainWindow{
+	background-color: rgb(42, 42, 42);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -67,6 +64,14 @@
       </item>
       <item row="0" column="1">
        <widget class="QPushButton" name="texture_btn">
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+
+	color: rgb(220, 220, 220);
+	background-color: rgb(40, 40, 40);
+
+}</string>
+        </property>
         <property name="text">
          <string>Import Texture</string>
         </property>
@@ -74,6 +79,14 @@
       </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="asset_btn">
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+
+	color: rgb(220, 220, 220);
+	background-color: rgb(40, 40, 40);
+
+}</string>
+        </property>
         <property name="text">
          <string>Import Asset</string>
         </property>
@@ -93,6 +106,26 @@
           <height>30</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QTextEdit {
+
+	color: rgb(246, 245, 244);
+	background-color: rgb(52, 52, 52);
+	border : 1px solid black;
+	border-radius: 15px;
+	padding-left : 8px;
+
+}</string>
+        </property>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="placeholderText">
+         <string>Search...</string>
+        </property>
        </widget>
       </item>
       <item row="0" column="3">
@@ -110,6 +143,14 @@
       </item>
       <item row="0" column="2">
        <widget class="QPushButton" name="material_btn">
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+
+	color: rgb(220, 220, 220);
+	background-color: rgb(40, 40, 40);
+
+}</string>
+        </property>
         <property name="text">
          <string>Create Material</string>
         </property>

@@ -77,7 +77,7 @@ class ItemWidget(QWidget):
     def mouseReleaseEvent(self, event) -> None:
         if self.item is None:
             return
-        print(self.item["name"])
+        print(self.item)
 
 
 class MainWindow(QMainWindow):
@@ -110,7 +110,16 @@ class MainWindow(QMainWindow):
         if asset_infos == {}:
             return
 
-        self.database_handler.add_asset(asset_infos["name_te"], asset_infos["path_te"])
+        asset_id = self.database_handler.add_asset(
+            asset_infos["name_te"], asset_infos["path_te"]
+        )
+        material_number = asset_infos["material_cb"]
+        if material_number > 0:
+            materials = self.database_handler.get_all_item_of_table("Materials")
+            self.database_handler.link_material(
+                asset_id,
+                materials[material_number - 1]["id"],
+            )
         self.refresh_items(updateItems=True)
 
     def import_texture_event(self) -> None:
@@ -242,6 +251,8 @@ class ImportAssetDialog(DialogTemplate):
         super().__init__(UiImportAssetDialog, parent)
         self.database = database
 
+        self.update_material()
+
     def everything_is_correct(self) -> bool:
         if self.ui.name_te.toPlainText() == "":
             print("Please enter a valid Name")
@@ -256,6 +267,11 @@ class ImportAssetDialog(DialogTemplate):
             return False
 
         return True
+
+    def update_material(self) -> None:
+        materials = self.database.get_all_item_of_table("Materials")
+        for mat in materials:
+            self.ui.material_cb.addItem(mat["name"])
 
     def path_already_exist(self) -> bool:
         assets = self.database.get_all_item_of_table("Models")
