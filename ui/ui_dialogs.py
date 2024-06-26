@@ -34,12 +34,27 @@ class DialogTemplate(QDialog):
 
 
 class ImportAssetDialog(DialogTemplate):
-    def __init__(self, database: DatabaseHandler, parent=None) -> None:
+    def __init__(
+        self, database: DatabaseHandler, existing_item: None, parent=None
+    ) -> None:
         super().__init__(UiImportAssetDialog, parent)
         self.database = database
+        self.materials = {}  # material_id : index
+        self.all_infos = {}
+        self.item = existing_item
 
         self.update_material()
         self.ui.file_btn.clicked.connect(self.select_file)
+
+        if self.item != {}:
+            self.update_infos()
+
+    def update_infos(self) -> None:
+        self.ui.name_te.setText(self.item["name"])
+        self.ui.path_te.setText(self.item["path"])
+        if self.item["material_id"] is None:
+            return
+        self.ui.material_cb.setCurrentIndex(self.materials[self.item["material_id"]])
 
     def select_file(self) -> None:
         file_path = QFileDialog.getOpenFileName(
@@ -60,36 +75,40 @@ class ImportAssetDialog(DialogTemplate):
             print("Please enter a valid Path")
             return False
 
-        if not os.path.exists(self.ui.path_te.toPlainText()):
-            print("Path not exists")
-            return False
-
-        if self.path_already_exist():
-            print("Path already exists")
-            return False
+        self.get_all_infos()
 
         return True
 
+    def get_all_infos(self) -> None:
+        self.all_infos["name"] = self.ui.name_te.toPlainText()
+        self.all_infos["path"] = self.ui.path_te.toPlainText()
+
+        material_index = self.ui.material_cb.currentIndex()
+
+        if material_index == 0:
+            self.all_infos["material_id"] = None
+        else:
+            for id, index in self.materials.items():
+                if index == material_index:
+                    self.all_infos["material_id"] = id
+
     def update_material(self) -> None:
         materials = self.database.get_all_item_of_table("Materials")
-        for mat in materials:
+        for i, mat in enumerate(materials):
+            self.materials[mat["id"]] = i + 1  # Store material index at id
             self.ui.material_cb.addItem(mat["name"])
-
-    def path_already_exist(self) -> bool:
-        assets = self.database.get_all_item_of_table("Models")
-        path = self.ui.path_te.toPlainText()
-        for item in assets:
-            if item["path"] == path:
-                return True
-
-        return False
 
 
 class ImportTextureDialog(DialogTemplate):
-    def __init__(self, database, parent=None) -> None:
+    def __init__(
+        self, database: DatabaseHandler, existing_item: None, parent=None
+    ) -> None:
         super().__init__(UiImportTextureDialog, parent)
         self.database = database
         self.ui.file_btn.clicked.connect(self.select_file)
+
+        self.all_infos = {}
+        self.item = existing_item
 
     def select_file(self) -> None:
         file_path = QFileDialog.getOpenFileName(
@@ -110,26 +129,24 @@ class ImportTextureDialog(DialogTemplate):
             print("Please enter a valid Path")
             return False
 
-        if self.path_already_exist():
-            print("Path already exists")
-            return False
+        self.get_all_infos()
 
         return True
 
-    def path_already_exist(self) -> bool:
-        textures = self.database.get_all_item_of_table("Textures")
-        path = self.ui.path_te.toPlainText()
-        for item in textures:
-            if item["path"] == path:
-                return True
-
-        return False
+    def get_all_infos(self) -> None:
+        self.all_infos["name"] = self.ui.name_te.toPlainText()
+        self.all_infos["path"] = self.ui.path_te.toPlainText()
 
 
 class CreateMaterialDialog(DialogTemplate):
-    def __init__(self, database, parent=None) -> None:
+    def __init__(self, database, existing_item: None, parent=None) -> None:
         super().__init__(UiCreateMaterialDialog, parent)
         self.database = database
+
+        self.textures = {}  # texture_id : index
+        self.all_infos = {}
+        self.item = existing_item
+
         self.get_all_textures()
 
     def everything_is_correct(self) -> bool:
@@ -137,10 +154,41 @@ class CreateMaterialDialog(DialogTemplate):
             print("Please enter a valid Name")
             return False
 
+        self.get_all_infos()
+
         return True
+
+    def get_all_infos(self):
+        self.all_infos["name"] = self.ui.name_te.toPlainText()
+        self.all_infos["diffuse_id"] = self.get_texture_id(
+            self.ui.diffuse_cb.currentIndex()
+        )
+        self.all_infos["specular_id"] = self.get_texture_id(
+            self.ui.specular_cb.currentIndex()
+        )
+        self.all_infos["roughness_id"] = self.get_texture_id(
+            self.ui.roughness_cb.currentIndex()
+        )
+        self.all_infos["metalness_id"] = self.get_texture_id(
+            self.ui.metalness_cb.currentIndex()
+        )
+        self.all_infos["normal_id"] = self.get_texture_id(
+            self.ui.normal_cb.currentIndex()
+        )
+        self.all_infos["displacement_id"] = self.get_texture_id(
+            self.ui.displacement_cb.currentIndex()
+        )
+
+    def get_texture_id(self, index):
+        if index == 0:
+            return None
+        for id, idx in self.textures.items():
+            if index == idx:
+                return id
 
     def get_all_textures(self) -> None:
         textures = self.database.get_all_item_of_table("Textures")
-        for texture in textures:
+        for i, texture in enumerate(textures):
+            self.textures[texture["id"]] = i + 1
             for cb in self.ui.mainFrame.findChildren(QComboBox):
                 cb.addItem(texture["name"])

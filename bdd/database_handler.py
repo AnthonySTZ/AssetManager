@@ -103,6 +103,17 @@ class DatabaseHandler:
         cursor.close()
         self.conn.commit()
         
+    def update_model(self, asset_id: int, name: str, path: str, material_id: int) -> None:
+        cursor = self.conn.cursor()
+        if material_id is not None:
+            query = f"UPDATE Models SET name = ?, path = ?, material_id = ? WHERE id = ?;"
+            cursor.execute(query, (name, path, material_id, asset_id,))
+        else:
+            query = f"UPDATE Models SET name = ?, path = ? WHERE id = ?;"
+            cursor.execute(query, (name, path, asset_id,))
+
+        cursor.close()
+        self.conn.commit()
 
     def get_all_item_of_table(self, table: str)->list:
         cursor = self.conn.cursor()

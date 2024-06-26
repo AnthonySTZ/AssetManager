@@ -57,14 +57,12 @@ class MainWindow(QMainWindow):
             return
 
         asset_id = self.database_handler.add_asset(
-            asset_infos["name_te"], asset_infos["path_te"]
+            asset_infos["name"], asset_infos["path"]
         )
-        material_number = asset_infos["material_cb"]
-        if material_number > 0:
-            materials = self.database_handler.get_all_item_of_table("Materials")
+        if asset_infos["material_id"] > 0:
             self.database_handler.link_material(
                 asset_id,
-                materials[material_number - 1]["id"],
+                asset_infos["material_id"],
             )
         self.refresh_items(updateItems=True)
 
@@ -76,9 +74,7 @@ class MainWindow(QMainWindow):
         if texture_infos == {}:
             return
 
-        self.database_handler.add_texture(
-            texture_infos["name_te"], texture_infos["path_te"]
-        )
+        self.database_handler.add_texture(texture_infos["name"], texture_infos["path"])
         self.refresh_items(updateItems=True)
 
     def create_material_event(self) -> None:
@@ -97,39 +93,17 @@ class MainWindow(QMainWindow):
             "normal_id": None,
             "displacement_id": None,
         }
-        dict_texture_name = {
-            "diffuse_cb": "diffuse_id",
-            "specular_cb": "specular_id",
-            "roughness_cb": "roughness_id",
-            "metalness_cb": "metalness_id",
-            "normal_cb": "normal_id",
-            "displacement_cb": "displacement_id",
-        }
 
-        for input_name, texture_name in dict_texture_name.items():
-            texture_number = material_infos[input_name]
-            if texture_number > 0:
-                map_dict[texture_name] = textures[texture_number - 1]["id"]
+        for key in map_dict.keys():
+            map_dict[key] = material_infos[key]
 
-        self.database_handler.add_materials(material_infos["name_te"], map_dict)
+        self.database_handler.add_materials(material_infos["name"], map_dict)
         self.refresh_items(updateItems=True)
 
     def show_dialog(self, dialog_class: DialogTemplate) -> dict:
-        dialog = dialog_class(self.database_handler, self)
+        dialog = dialog_class(self.database_handler, {}, self)
         dialog.exec()
-        if dialog.status != True:  # Return Empty dict if Dialog cancel or close
-            return {}
-
-        objects_dict = {}
-        labels = dialog.findChildren(QTextEdit)
-        for obj in labels:
-            objects_dict[obj.objectName()] = obj.toPlainText()
-
-        comboboxes = dialog.findChildren(QComboBox)
-        for obj in comboboxes:
-            objects_dict[obj.objectName()] = obj.currentIndex()
-
-        return objects_dict
+        return dialog.all_infos
 
     def add_item_to_listWidget(self, list_widget, widget) -> None:
         item = QListWidgetItem(list_widget)
@@ -143,7 +117,9 @@ class MainWindow(QMainWindow):
         list_widget.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         list_widget.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         list_widget.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
-        list_widget.setFixedSize(self.ui.items_lw.width(), ItemWidget().height() + 10)
+        list_widget.setFixedSize(
+            self.ui.items_lw.width(), ItemWidget(self.database_handler).height() + 10
+        )
         self.add_item_to_listWidget(self.ui.items_lw, list_widget)
 
     def is_item_row_full(self):
@@ -151,7 +127,7 @@ class MainWindow(QMainWindow):
         last_row_item = self.ui.items_lw.item(self.ui.items_lw.count() - 1)
         last_row = self.ui.items_lw.itemWidget(last_row_item)
         last_row_item_nb = last_row.count()
-        widget_width = ItemWidget().width()
+        widget_width = ItemWidget(self.database_handler).width()
         return (last_row_item_nb + 1) * widget_width > self.ui.items_lw.width()
 
     def add_item(self, item) -> None:
@@ -161,7 +137,7 @@ class MainWindow(QMainWindow):
         elif self.is_item_row_full():
             self.add_item_row(item)
 
-        item_widget = ItemWidget(item)
+        item_widget = ItemWidget(self.database_handler, item)
         last_row_item = self.ui.items_lw.item(self.ui.items_lw.count() - 1)
         self.add_item_to_listWidget(
             self.ui.items_lw.itemWidget(last_row_item), item_widget

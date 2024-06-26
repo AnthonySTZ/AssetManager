@@ -1,15 +1,23 @@
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QTextEdit, QComboBox
 from PySide6.QtGui import QPixmap
 from ui.ui_setups.ui_item_widget import Ui_Form as UiItemWidget
+from ui.ui_dialogs import (
+    ImportAssetDialog,
+    ImportTextureDialog,
+    CreateMaterialDialog,
+    DialogTemplate,
+)
+from bdd.database_handler import DatabaseHandler
 import os
 import ressources_rc
 
 
 class ItemWidget(QWidget):
-    def __init__(self, item=None) -> None:
+    def __init__(self, database: DatabaseHandler, item=None) -> None:
         super().__init__()
         self.ui = UiItemWidget()
         self.ui.setupUi(self)
+        self.database = database
 
         self.item = item
         self.init_texts()
@@ -44,4 +52,18 @@ class ItemWidget(QWidget):
     def mouseReleaseEvent(self, event) -> None:
         if self.item is None:
             return
+
+        if self.item["type"] == "Models":
+            dialog = self.show_dialog(ImportAssetDialog, self.item)
+            if dialog == {}:
+                return
+
+            # self.database.update_model()
+
+            print(dialog)
         print(self.item)
+
+    def show_dialog(self, dialog_class: DialogTemplate, item) -> dict:
+        dialog = dialog_class(self.database, item, self)
+        dialog.exec()
+        return dialog.all_infos
