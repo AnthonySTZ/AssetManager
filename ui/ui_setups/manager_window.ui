@@ -41,7 +41,7 @@
 
 	color: rgb(246, 245, 244);
 	background-color: rgb(52, 52, 52);
-	border : 1px solid black;
+	border : 1px solid grey;
 	border-radius: 15px;
 	padding-left : 8px;
 

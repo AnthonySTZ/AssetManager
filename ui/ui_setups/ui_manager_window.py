@@ -43,7 +43,7 @@ class Ui_MainWindow(object):
 "\n"
 "	color: rgb(246, 245, 244);\n"
 "	background-color: rgb(52, 52, 52);\n"
-"	border : 1px solid black;\n"
+"	border : 1px solid grey;\n"
 "	border-radius: 15px;\n"
 "	padding-left : 8px;\n"
 "\n"
