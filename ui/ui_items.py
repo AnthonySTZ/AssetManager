@@ -60,7 +60,24 @@ class ItemWidget(QWidget):
 
             # self.database.update_model()
 
+        if self.item["type"] == "Textures":
+            dialog = self.show_dialog(ImportTextureDialog, self.item)
+            if dialog == {}:
+                return
+
+            # self.database.update_texture()
+
             print(dialog)
+
+        if self.item["type"] == "Materials":
+            dialog = self.show_dialog(CreateMaterialDialog, self.item)
+            if dialog == {}:
+                return
+
+            # self.database.update_material()
+
+            print(dialog)
+
         print(self.item)
 
     def show_dialog(self, dialog_class: DialogTemplate, item) -> dict:

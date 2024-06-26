@@ -109,6 +109,12 @@ class ImportTextureDialog(DialogTemplate):
 
         self.all_infos = {}
         self.item = existing_item
+        if self.item != {}:
+            self.update_infos()
+
+    def update_infos(self) -> None:
+        self.ui.name_te.setText(self.item["name"])
+        self.ui.path_te.setText(self.item["path"])
 
     def select_file(self) -> None:
         file_path = QFileDialog.getOpenFileName(
@@ -146,8 +152,31 @@ class CreateMaterialDialog(DialogTemplate):
         self.textures = {}  # texture_id : index
         self.all_infos = {}
         self.item = existing_item
-
         self.get_all_textures()
+
+        if self.item != {}:
+            self.update_infos()
+
+    def update_infos(self) -> None:
+        self.ui.name_te.setText(self.item["name"])
+        if self.item["diffuse_id"] in self.textures:
+            self.ui.diffuse_cb.setCurrentIndex(self.textures[self.item["diffuse_id"]])
+        if self.item["specular_id"] in self.textures:
+            self.ui.specular_cb.setCurrentIndex(self.textures[self.item["specular_id"]])
+        if self.item["roughness_id"] in self.textures:
+            self.ui.roughness_cb.setCurrentIndex(
+                self.textures[self.item["roughness_id"]]
+            )
+        if self.item["metalness_id"] in self.textures:
+            self.ui.metalness_cb.setCurrentIndex(
+                self.textures[self.item["metalness_id"]]
+            )
+        if self.item["normal_id"] in self.textures:
+            self.ui.normal_cb.setCurrentIndex(self.textures[self.item["normal_id"]])
+        if self.item["displacement_id"] in self.textures:
+            self.ui.displacement_cb.setCurrentIndex(
+                self.textures[self.item["displacement_id"]]
+            )
 
     def everything_is_correct(self) -> bool:
         if self.ui.name_te.toPlainText() == "":
@@ -185,6 +214,8 @@ class CreateMaterialDialog(DialogTemplate):
         for id, idx in self.textures.items():
             if index == idx:
                 return id
+
+        return None
 
     def get_all_textures(self) -> None:
         textures = self.database.get_all_item_of_table("Textures")
