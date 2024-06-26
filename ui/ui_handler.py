@@ -41,6 +41,8 @@ class MainWindow(QMainWindow):
         self.ui.texture_btn.clicked.connect(self.import_texture_event)
         self.ui.material_btn.clicked.connect(self.create_material_event)
 
+        self.ui.search_te.textChanged.connect(self.refresh_items)
+
     def init_database(self) -> None:
         self.database_handler = DatabaseHandler("assets.db")
         self.refresh_items(updateItems=True)
@@ -147,22 +149,29 @@ class MainWindow(QMainWindow):
         for item in self.items:
             self.add_item(item)
 
-    def get_all_items(self) -> list[dict]:
-        self.all_assets = self.database_handler.get_all_item_of_table("Models")
-        self.all_textures = self.database_handler.get_all_item_of_table("Textures")
-        self.all_materials = self.database_handler.get_all_item_of_table("Materials")
+    def get_all_items(self, search_text) -> list[dict]:
+        self.all_assets = self.database_handler.get_all_item_of_table(
+            "Models", search_text
+        )
+        self.all_textures = self.database_handler.get_all_item_of_table(
+            "Textures", search_text
+        )
+        self.all_materials = self.database_handler.get_all_item_of_table(
+            "Materials", search_text
+        )
 
         return self.all_assets + self.all_textures + self.all_materials
 
-    def refresh_items(self, updateItems: bool) -> None:
+    def refresh_items(self, updateItems=True) -> None:
         if updateItems:
-            self.items = self.get_all_items()
+            search_text = self.ui.search_te.toPlainText()
+            self.items = self.get_all_items(search_text)
         self.ui.items_lw.clear()
         self.add_all_items()
 
     def resizeEvent(self, event) -> None:
         QMainWindow.resizeEvent(self, event)
         try:  # Check if resize is called before the window is created
-            self.refresh_items(updateItems=True)
+            self.refresh_items()
         except AttributeError:
             pass

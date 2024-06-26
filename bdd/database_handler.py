@@ -134,9 +134,11 @@ class DatabaseHandler:
         cursor.close()
         self.conn.commit()
 
-    def get_all_item_of_table(self, table: str)->list:
+    def get_all_item_of_table(self, table: str, search_text:str)->list:
         cursor = self.conn.cursor()
         query = f"SELECT * FROM {table};"
+        if search_text != "":
+            query = f"SELECT * FROM {table} WHERE name LIKE '%{search_text}%';"
 
         cursor.execute(query)
         response = cursor.fetchall()
