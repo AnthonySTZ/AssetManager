@@ -163,6 +163,6 @@ class MainWindow(QMainWindow):
     def resizeEvent(self, event) -> None:
         QMainWindow.resizeEvent(self, event)
         try:  # Check if resize is called before the window is created
-            self.refresh_items(updateItems=False)
+            self.refresh_items(updateItems=True)
         except AttributeError:
             pass

@@ -54,31 +54,48 @@ class ItemWidget(QWidget):
             return
 
         if self.item["type"] == "Models":
-            dialog = self.show_dialog(ImportAssetDialog, self.item)
-            if dialog == {}:
+            asset_infos = self.show_dialog(ImportAssetDialog, self.item)
+            if asset_infos == {}:
                 return
 
-            # self.database.update_model()
+            asset_infos["id"] = self.item["id"]
+            asset_infos["type"] = self.item["type"]
+            self.item = asset_infos.copy()
 
-        if self.item["type"] == "Textures":
-            dialog = self.show_dialog(ImportTextureDialog, self.item)
-            if dialog == {}:
+            self.database.update_model(
+                self.item["id"],
+                self.item["name"],
+                self.item["path"],
+                self.item["material_id"],
+            )
+
+        elif self.item["type"] == "Textures":
+            texture_infos = self.show_dialog(ImportTextureDialog, self.item)
+            if texture_infos == {}:
                 return
 
-            # self.database.update_texture()
+            texture_infos["id"] = self.item["id"]
+            texture_infos["type"] = self.item["type"]
+            self.item = texture_infos.copy()
 
-            print(dialog)
+            self.database.update_texture()
 
-        if self.item["type"] == "Materials":
-            dialog = self.show_dialog(CreateMaterialDialog, self.item)
-            if dialog == {}:
+        elif self.item["type"] == "Materials":
+            material_infos = self.show_dialog(CreateMaterialDialog, self.item)
+            if material_infos == {}:
                 return
 
-            # self.database.update_material()
+            material_infos["id"] = self.item["id"]
+            material_infos["type"] = self.item["type"]
 
-            print(dialog)
+            self.item = material_infos.copy()
+            del material_infos["id"]
+            del material_infos["name"]
+            del material_infos["type"]
 
-        print(self.item)
+            self.database.update_material(
+                self.item["id"], self.item["name"], material_infos
+            )
 
     def show_dialog(self, dialog_class: DialogTemplate, item) -> dict:
         dialog = dialog_class(self.database, item, self)

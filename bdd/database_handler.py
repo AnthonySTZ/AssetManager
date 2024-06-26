@@ -114,12 +114,33 @@ class DatabaseHandler:
 
         cursor.close()
         self.conn.commit()
+    
+    def update_texture(self, texture_id: int, name: str, path: str) -> None:
+        cursor = self.conn.cursor()
+        query = f"UPDATE Textures SET name = ?, path = ? WHERE id = ?;"
+        cursor.execute(query, (name, path, texture_id,))
+
+        cursor.close()
+        self.conn.commit()
+    
+    def update_material(self, material_id: int, name: str, maps_dict:dict) -> None:
+
+        maps = " = ?, ".join(maps_dict.keys()) + " = ?"
+        
+        cursor = self.conn.cursor()
+        query = f"UPDATE Materials SET name = ?, {maps} WHERE id = ?;"
+        cursor.execute(query, (name,) + tuple(maps_dict.values()) + (material_id,))
+
+        cursor.close()
+        self.conn.commit()
 
     def get_all_item_of_table(self, table: str)->list:
         cursor = self.conn.cursor()
-        query = f"SELECT * FROM {table}"
+        query = f"SELECT * FROM {table};"
+
         cursor.execute(query)
         response = cursor.fetchall()
+        cursor.close()
         response = list(map(dict, response))
         for item in response:
             item["type"] = table
