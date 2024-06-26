@@ -218,7 +218,7 @@ class CreateMaterialDialog(DialogTemplate):
         return None
 
     def get_all_textures(self) -> None:
-        textures = self.database.get_all_item_of_table("Textures")
+        textures = self.database.get_all_item_of_table("Textures", "")
         for i, texture in enumerate(textures):
             self.textures[texture["id"]] = i + 1
             for cb in self.ui.mainFrame.findChildren(QComboBox):
