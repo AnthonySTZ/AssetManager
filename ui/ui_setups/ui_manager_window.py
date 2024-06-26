@@ -19,12 +19,13 @@ from PySide6.QtWidgets import (QAbstractItemView, QApplication, QGridLayout, QHB
     QListWidget, QListWidgetItem, QMainWindow, QPushButton,
     QSizePolicy, QSpacerItem, QTextEdit, QVBoxLayout,
     QWidget)
+import ressources_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1123, 602)
+        MainWindow.resize(1060, 602)
         MainWindow.setStyleSheet(u"QMainWindow{\n"
 "	background-color: rgb(42, 42, 42);\n"
 "}")
@@ -34,12 +35,53 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.gridLayout_2 = QGridLayout()
         self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.search_te = QTextEdit(self.centralwidget)
+        self.search_te.setObjectName(u"search_te")
+        self.search_te.setMinimumSize(QSize(350, 0))
+        self.search_te.setMaximumSize(QSize(350, 30))
+        self.search_te.setStyleSheet(u"QTextEdit {\n"
+"\n"
+"	color: rgb(246, 245, 244);\n"
+"	background-color: rgb(52, 52, 52);\n"
+"	border : 1px solid black;\n"
+"	border-radius: 15px;\n"
+"	padding-left : 8px;\n"
+"\n"
+"}")
+        self.search_te.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.search_te.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
+        self.gridLayout_2.addWidget(self.search_te, 0, 8, 1, 1)
+
+        self.asset_btn = QPushButton(self.centralwidget)
+        self.asset_btn.setObjectName(u"asset_btn")
+        self.asset_btn.setStyleSheet(u"QPushButton{\n"
+"\n"
+"	color: rgb(220, 220, 220);\n"
+"	background-color: rgb(40, 40, 40);\n"
+"\n"
+"}")
+
+        self.gridLayout_2.addWidget(self.asset_btn, 0, 0, 1, 1)
+
+        self.texture_btn = QPushButton(self.centralwidget)
+        self.texture_btn.setObjectName(u"texture_btn")
+        self.texture_btn.setStyleSheet(u"QPushButton{\n"
+"\n"
+"	color: rgb(220, 220, 220);\n"
+"	background-color: rgb(40, 40, 40);\n"
+"\n"
+"}")
+
+        self.gridLayout_2.addWidget(self.texture_btn, 0, 1, 1, 1)
+
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
         self.horizontalLayout = QHBoxLayout(self.widget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.items_lw = QListWidget(self.widget)
         self.items_lw.setObjectName(u"items_lw")
+        self.items_lw.viewport().setProperty("cursor", QCursor(Qt.ArrowCursor))
         self.items_lw.setMouseTracking(False)
         self.items_lw.setFocusPolicy(Qt.NoFocus)
         self.items_lw.setStyleSheet(u".QListWidget{\n"
@@ -58,51 +100,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.items_lw)
 
 
-        self.gridLayout_2.addWidget(self.widget, 2, 0, 1, 5)
-
-        self.texture_btn = QPushButton(self.centralwidget)
-        self.texture_btn.setObjectName(u"texture_btn")
-        self.texture_btn.setStyleSheet(u"QPushButton{\n"
-"\n"
-"	color: rgb(220, 220, 220);\n"
-"	background-color: rgb(40, 40, 40);\n"
-"\n"
-"}")
-
-        self.gridLayout_2.addWidget(self.texture_btn, 0, 1, 1, 1)
-
-        self.asset_btn = QPushButton(self.centralwidget)
-        self.asset_btn.setObjectName(u"asset_btn")
-        self.asset_btn.setStyleSheet(u"QPushButton{\n"
-"\n"
-"	color: rgb(220, 220, 220);\n"
-"	background-color: rgb(40, 40, 40);\n"
-"\n"
-"}")
-
-        self.gridLayout_2.addWidget(self.asset_btn, 0, 0, 1, 1)
-
-        self.search_te = QTextEdit(self.centralwidget)
-        self.search_te.setObjectName(u"search_te")
-        self.search_te.setMinimumSize(QSize(350, 0))
-        self.search_te.setMaximumSize(QSize(350, 30))
-        self.search_te.setStyleSheet(u"QTextEdit {\n"
-"\n"
-"	color: rgb(246, 245, 244);\n"
-"	background-color: rgb(52, 52, 52);\n"
-"	border : 1px solid black;\n"
-"	border-radius: 15px;\n"
-"	padding-left : 8px;\n"
-"\n"
-"}")
-        self.search_te.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.search_te.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-
-        self.gridLayout_2.addWidget(self.search_te, 0, 4, 1, 1)
-
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_2.addItem(self.horizontalSpacer, 0, 3, 1, 1)
+        self.gridLayout_2.addWidget(self.widget, 2, 0, 1, 9)
 
         self.material_btn = QPushButton(self.centralwidget)
         self.material_btn.setObjectName(u"material_btn")
@@ -114,6 +112,76 @@ class Ui_MainWindow(object):
 "}")
 
         self.gridLayout_2.addWidget(self.material_btn, 0, 2, 1, 1)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_2.addItem(self.horizontalSpacer, 0, 3, 1, 1)
+
+        self.widget_2 = QWidget(self.centralwidget)
+        self.widget_2.setObjectName(u"widget_2")
+        self.widget_2.setMinimumSize(QSize(0, 0))
+        self.widget_2.setStyleSheet(u"QPushButton {\n"
+"\n"
+"background-color: rgb(42, 42, 42);\n"
+"\n"
+"}\n"
+"\n"
+"QPushButton:checked{\n"
+"\n"
+"background-color: rgb(25, 25, 25);\n"
+"\n"
+"}\n"
+"")
+        self.horizontalLayout_4 = QHBoxLayout(self.widget_2)
+        self.horizontalLayout_4.setSpacing(0)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.all_check = QPushButton(self.widget_2)
+        self.all_check.setObjectName(u"all_check")
+        icon = QIcon()
+        icon.addFile(u":/icons/ui/ressources/all.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.all_check.setIcon(icon)
+        self.all_check.setIconSize(QSize(24, 24))
+        self.all_check.setCheckable(True)
+        self.all_check.setChecked(True)
+        self.all_check.setFlat(False)
+
+        self.horizontalLayout_4.addWidget(self.all_check)
+
+        self.models_check = QPushButton(self.widget_2)
+        self.models_check.setObjectName(u"models_check")
+        self.models_check.setCursor(QCursor(Qt.ArrowCursor))
+        self.models_check.setStyleSheet(u"")
+        icon1 = QIcon()
+        icon1.addFile(u":/icons/ui/ressources/model.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.models_check.setIcon(icon1)
+        self.models_check.setIconSize(QSize(24, 24))
+        self.models_check.setCheckable(True)
+
+        self.horizontalLayout_4.addWidget(self.models_check)
+
+        self.textures_check = QPushButton(self.widget_2)
+        self.textures_check.setObjectName(u"textures_check")
+        icon2 = QIcon()
+        icon2.addFile(u":/icons/ui/ressources/texture.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.textures_check.setIcon(icon2)
+        self.textures_check.setIconSize(QSize(24, 24))
+        self.textures_check.setCheckable(True)
+
+        self.horizontalLayout_4.addWidget(self.textures_check)
+
+        self.materials_check = QPushButton(self.widget_2)
+        self.materials_check.setObjectName(u"materials_check")
+        icon3 = QIcon()
+        icon3.addFile(u":/icons/ui/ressources/material.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.materials_check.setIcon(icon3)
+        self.materials_check.setIconSize(QSize(24, 24))
+        self.materials_check.setCheckable(True)
+
+        self.horizontalLayout_4.addWidget(self.materials_check)
+
+
+        self.gridLayout_2.addWidget(self.widget_2, 0, 4, 1, 4)
 
 
         self.verticalLayout.addLayout(self.gridLayout_2)
@@ -127,9 +195,13 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.texture_btn.setText(QCoreApplication.translate("MainWindow", u"Import Texture", None))
-        self.asset_btn.setText(QCoreApplication.translate("MainWindow", u"Import Asset", None))
         self.search_te.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Search...", None))
+        self.asset_btn.setText(QCoreApplication.translate("MainWindow", u"Import Asset", None))
+        self.texture_btn.setText(QCoreApplication.translate("MainWindow", u"Import Texture", None))
         self.material_btn.setText(QCoreApplication.translate("MainWindow", u"Create Material", None))
+        self.all_check.setText("")
+        self.models_check.setText("")
+        self.textures_check.setText("")
+        self.materials_check.setText("")
     # retranslateUi
 

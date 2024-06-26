@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1123</width>
+    <width>1060</width>
     <height>602</height>
    </rect>
   </property>
@@ -22,77 +22,7 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0">
-      <item row="2" column="0" colspan="5">
-       <widget class="QWidget" name="widget" native="true">
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QListWidget" name="items_lw">
-           <property name="mouseTracking">
-            <bool>false</bool>
-           </property>
-           <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">.QListWidget{
-
-	border: 0;
-	background: transparent;
-}
-
-</string>
-           </property>
-           <property name="horizontalScrollBarPolicy">
-            <enum>Qt::ScrollBarAlwaysOff</enum>
-           </property>
-           <property name="autoScroll">
-            <bool>true</bool>
-           </property>
-           <property name="selectionMode">
-            <enum>QAbstractItemView::NoSelection</enum>
-           </property>
-           <property name="verticalScrollMode">
-            <enum>QAbstractItemView::ScrollPerPixel</enum>
-           </property>
-           <property name="horizontalScrollMode">
-            <enum>QAbstractItemView::ScrollPerPixel</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="texture_btn">
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-
-	color: rgb(220, 220, 220);
-	background-color: rgb(40, 40, 40);
-
-}</string>
-        </property>
-        <property name="text">
-         <string>Import Texture</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QPushButton" name="asset_btn">
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-
-	color: rgb(220, 220, 220);
-	background-color: rgb(40, 40, 40);
-
-}</string>
-        </property>
-        <property name="text">
-         <string>Import Asset</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
+      <item row="0" column="8">
        <widget class="QTextEdit" name="search_te">
         <property name="minimumSize">
          <size>
@@ -128,18 +58,78 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="asset_btn">
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+
+	color: rgb(220, 220, 220);
+	background-color: rgb(40, 40, 40);
+
+}</string>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
+        <property name="text">
+         <string>Import Asset</string>
         </property>
-       </spacer>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="texture_btn">
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+
+	color: rgb(220, 220, 220);
+	background-color: rgb(40, 40, 40);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>Import Texture</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="9">
+       <widget class="QWidget" name="widget" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QListWidget" name="items_lw">
+           <property name="cursor" stdset="0">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="mouseTracking">
+            <bool>false</bool>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">.QListWidget{
+
+	border: 0;
+	background: transparent;
+}
+
+</string>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="autoScroll">
+            <bool>true</bool>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::NoSelection</enum>
+           </property>
+           <property name="verticalScrollMode">
+            <enum>QAbstractItemView::ScrollPerPixel</enum>
+           </property>
+           <property name="horizontalScrollMode">
+            <enum>QAbstractItemView::ScrollPerPixel</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
       <item row="0" column="2">
        <widget class="QPushButton" name="material_btn">
@@ -156,11 +146,159 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="3">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="4" colspan="4">
+       <widget class="QWidget" name="widget_2" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+
+background-color: rgb(42, 42, 42);
+
+}
+
+QPushButton:checked{
+
+background-color: rgb(25, 25, 25);
+
+}
+</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="all_check">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../ressources.qrc">
+             <normaloff>:/icons/ui/ressources/all.png</normaloff>:/icons/ui/ressources/all.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="models_check">
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../ressources.qrc">
+             <normaloff>:/icons/ui/ressources/model.png</normaloff>:/icons/ui/ressources/model.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="textures_check">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../ressources.qrc">
+             <normaloff>:/icons/ui/ressources/texture.png</normaloff>:/icons/ui/ressources/texture.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="materials_check">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../ressources.qrc">
+             <normaloff>:/icons/ui/ressources/material.png</normaloff>:/icons/ui/ressources/material.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../ressources.qrc"/>
+ </resources>
  <connections/>
 </ui>

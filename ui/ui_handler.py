@@ -31,6 +31,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.filter_type = {"Models": True, "Textures": True, "Materials": True}
 
         self.init_buttons()
         self.show()
@@ -42,6 +43,10 @@ class MainWindow(QMainWindow):
         self.ui.material_btn.clicked.connect(self.create_material_event)
 
         self.ui.search_te.textChanged.connect(self.refresh_items)
+        self.ui.all_check.clicked.connect(lambda: self.update_filter(True))
+        self.ui.models_check.clicked.connect(lambda: self.update_filter(False))
+        self.ui.textures_check.clicked.connect(lambda: self.update_filter(False))
+        self.ui.materials_check.clicked.connect(lambda: self.update_filter(False))
 
     def init_database(self) -> None:
         self.database_handler = DatabaseHandler("assets.db")
@@ -49,6 +54,35 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event) -> None:
         self.database_handler.close_connection()
+
+    def set_all_filter(self) -> None:
+        self.filter_type["Models"] = True
+        self.filter_type["Textures"] = True
+        self.filter_type["Materials"] = True
+        self.ui.all_check.setChecked(True)
+        self.ui.models_check.setChecked(False)
+        self.ui.textures_check.setChecked(False)
+        self.ui.materials_check.setChecked(False)
+
+    def update_filter(self, is_all: bool) -> None:
+
+        if is_all:
+            self.set_all_filter()
+
+        if not is_all:
+            self.ui.all_check.setChecked(False)
+            self.filter_type["Models"] = self.ui.models_check.isChecked()
+            self.filter_type["Textures"] = self.ui.textures_check.isChecked()
+            self.filter_type["Materials"] = self.ui.materials_check.isChecked()
+
+            if not (
+                self.ui.models_check.isChecked()
+                or self.ui.textures_check.isChecked()
+                or self.ui.materials_check.isChecked()
+            ):  # If all filter are disabled reenable the all filter
+                self.set_all_filter()
+
+        self.refresh_items()
 
     def import_asset_event(self) -> None:
         infos = self.show_dialog(ImportAssetDialog)
@@ -149,23 +183,30 @@ class MainWindow(QMainWindow):
         for item in self.items:
             self.add_item(item)
 
-    def get_all_items(self, search_text) -> list[dict]:
-        self.all_assets = self.database_handler.get_all_item_of_table(
-            "Models", search_text
-        )
-        self.all_textures = self.database_handler.get_all_item_of_table(
-            "Textures", search_text
-        )
-        self.all_materials = self.database_handler.get_all_item_of_table(
-            "Materials", search_text
-        )
+    def get_all_items(self) -> list[dict]:
+        search_text = self.ui.search_te.toPlainText()
+        items = []
+        if self.filter_type["Models"]:
+            self.all_assets = self.database_handler.get_all_item_of_table(
+                "Models", search_text
+            )
+            items += self.all_assets
+        if self.filter_type["Textures"]:
+            self.all_textures = self.database_handler.get_all_item_of_table(
+                "Textures", search_text
+            )
+            items += self.all_textures
+        if self.filter_type["Materials"]:
+            self.all_materials = self.database_handler.get_all_item_of_table(
+                "Materials", search_text
+            )
+            items += self.all_materials
 
-        return self.all_assets + self.all_textures + self.all_materials
+        return items
 
     def refresh_items(self, updateItems=True) -> None:
         if updateItems:
-            search_text = self.ui.search_te.toPlainText()
-            self.items = self.get_all_items(search_text)
+            self.items = self.get_all_items()
         self.ui.items_lw.clear()
         self.add_all_items()
 

@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>ui/ressources/all.png</file>
     <file>ui/ressources/error.png</file>
     <file>ui/ressources/material.png</file>
     <file>ui/ressources/model.png</file>
