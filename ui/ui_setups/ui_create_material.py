@@ -45,12 +45,14 @@ class Ui_Dialog(object):
         self.roughness_cb = QComboBox(self.mainFrame)
         self.roughness_cb.addItem("")
         self.roughness_cb.setObjectName(u"roughness_cb")
+        self.roughness_cb.setMaximumSize(QSize(16777215, 28))
 
         self.gridLayout.addWidget(self.roughness_cb, 3, 2, 1, 1)
 
         self.specular_cb = QComboBox(self.mainFrame)
         self.specular_cb.addItem("")
         self.specular_cb.setObjectName(u"specular_cb")
+        self.specular_cb.setMaximumSize(QSize(16777215, 28))
 
         self.gridLayout.addWidget(self.specular_cb, 2, 2, 1, 1)
 
@@ -61,7 +63,7 @@ class Ui_Dialog(object):
 
         self.name_te = QTextEdit(self.mainFrame)
         self.name_te.setObjectName(u"name_te")
-        self.name_te.setMaximumSize(QSize(16777215, 25))
+        self.name_te.setMaximumSize(QSize(16777215, 28))
         self.name_te.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.name_te.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
@@ -82,6 +84,7 @@ class Ui_Dialog(object):
         self.diffuse_cb = QComboBox(self.mainFrame)
         self.diffuse_cb.addItem("")
         self.diffuse_cb.setObjectName(u"diffuse_cb")
+        self.diffuse_cb.setMaximumSize(QSize(16777215, 28))
 
         self.gridLayout.addWidget(self.diffuse_cb, 1, 2, 1, 1)
 
@@ -94,6 +97,7 @@ class Ui_Dialog(object):
         self.normal_cb = QComboBox(self.mainFrame)
         self.normal_cb.addItem("")
         self.normal_cb.setObjectName(u"normal_cb")
+        self.normal_cb.setMaximumSize(QSize(16777215, 28))
 
         self.gridLayout.addWidget(self.normal_cb, 5, 2, 1, 1)
 
@@ -111,6 +115,7 @@ class Ui_Dialog(object):
         self.displacement_cb = QComboBox(self.mainFrame)
         self.displacement_cb.addItem("")
         self.displacement_cb.setObjectName(u"displacement_cb")
+        self.displacement_cb.setMaximumSize(QSize(16777215, 28))
 
         self.gridLayout.addWidget(self.displacement_cb, 6, 2, 1, 1)
 
@@ -123,6 +128,7 @@ class Ui_Dialog(object):
         self.metalness_cb = QComboBox(self.mainFrame)
         self.metalness_cb.addItem("")
         self.metalness_cb.setObjectName(u"metalness_cb")
+        self.metalness_cb.setMaximumSize(QSize(16777215, 28))
 
         self.gridLayout.addWidget(self.metalness_cb, 4, 2, 1, 1)
 

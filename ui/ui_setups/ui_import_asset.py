@@ -40,17 +40,6 @@ class Ui_Dialog(object):
 
         self.gridLayout.addWidget(self.label_3, 2, 0, 1, 1)
 
-        self.material_cb = QComboBox(Dialog)
-        self.material_cb.addItem("")
-        self.material_cb.setObjectName(u"material_cb")
-
-        self.gridLayout.addWidget(self.material_cb, 2, 1, 1, 2)
-
-        self.accept_btn = QPushButton(Dialog)
-        self.accept_btn.setObjectName(u"accept_btn")
-
-        self.gridLayout.addWidget(self.accept_btn, 3, 2, 1, 1)
-
         self.label_2 = QLabel(Dialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setAlignment(Qt.AlignCenter)
@@ -65,37 +54,50 @@ class Ui_Dialog(object):
 
         self.path_te = QTextEdit(Dialog)
         self.path_te.setObjectName(u"path_te")
-        self.path_te.setMaximumSize(QSize(16777215, 25))
+        self.path_te.setMaximumSize(QSize(16777215, 28))
         self.path_te.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.path_te.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.path_te.setLineWrapMode(QTextEdit.NoWrap)
 
         self.gridLayout.addWidget(self.path_te, 1, 1, 1, 2)
 
-        self.name_te = QTextEdit(Dialog)
-        self.name_te.setObjectName(u"name_te")
-        self.name_te.setMaximumSize(QSize(16777215, 25))
-        self.name_te.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.name_te.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-
-        self.gridLayout.addWidget(self.name_te, 0, 1, 1, 2)
-
-        self.pushButton = QPushButton(Dialog)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMaximumSize(QSize(25, 25))
-        self.pushButton.setCursor(QCursor(Qt.PointingHandCursor))
-        self.pushButton.setAutoFillBackground(False)
-        self.pushButton.setStyleSheet(u"QPushButton{\n"
+        self.file_btn = QPushButton(Dialog)
+        self.file_btn.setObjectName(u"file_btn")
+        self.file_btn.setMaximumSize(QSize(28, 28))
+        self.file_btn.setCursor(QCursor(Qt.PointingHandCursor))
+        self.file_btn.setAutoFillBackground(False)
+        self.file_btn.setStyleSheet(u"QPushButton{\n"
 "	background: transparent;\n"
 "\n"
 "}")
         icon = QIcon()
         icon.addFile(u":/icons/ui/ressources/folder.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pushButton.setIcon(icon)
-        self.pushButton.setIconSize(QSize(25, 25))
-        self.pushButton.setAutoDefault(False)
-        self.pushButton.setFlat(True)
+        self.file_btn.setIcon(icon)
+        self.file_btn.setIconSize(QSize(28, 28))
+        self.file_btn.setAutoDefault(False)
+        self.file_btn.setFlat(True)
 
-        self.gridLayout.addWidget(self.pushButton, 1, 3, 1, 1)
+        self.gridLayout.addWidget(self.file_btn, 1, 3, 1, 1)
+
+        self.name_te = QTextEdit(Dialog)
+        self.name_te.setObjectName(u"name_te")
+        self.name_te.setMaximumSize(QSize(16777215, 28))
+        self.name_te.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.name_te.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
+        self.gridLayout.addWidget(self.name_te, 0, 1, 1, 3)
+
+        self.material_cb = QComboBox(Dialog)
+        self.material_cb.addItem("")
+        self.material_cb.setObjectName(u"material_cb")
+        self.material_cb.setMaximumSize(QSize(16777215, 28))
+
+        self.gridLayout.addWidget(self.material_cb, 2, 1, 1, 3)
+
+        self.accept_btn = QPushButton(Dialog)
+        self.accept_btn.setObjectName(u"accept_btn")
+
+        self.gridLayout.addWidget(self.accept_btn, 3, 2, 1, 2)
 
 
         self.horizontalLayout.addLayout(self.gridLayout)
@@ -110,11 +112,11 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
         self.cancel_btn.setText(QCoreApplication.translate("Dialog", u"Cancel", None))
         self.label_3.setText(QCoreApplication.translate("Dialog", u"Material :", None))
+        self.label_2.setText(QCoreApplication.translate("Dialog", u"Path :", None))
+        self.label.setText(QCoreApplication.translate("Dialog", u"Name :", None))
+        self.file_btn.setText("")
         self.material_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
         self.accept_btn.setText(QCoreApplication.translate("Dialog", u"Accept", None))
-        self.label_2.setText(QCoreApplication.translate("Dialog", u"Path :", None))
-        self.label.setText(QCoreApplication.translate("Dialog", u"Name :", None))
-        self.pushButton.setText("")
     # retranslateUi
 

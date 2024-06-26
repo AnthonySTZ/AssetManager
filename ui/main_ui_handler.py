@@ -12,13 +12,15 @@ from PySide6.QtWidgets import (
     QListWidgetItem,
     QListWidget,
     QAbstractItemView,
+    QFileDialog,
 )
-from ui.ui_manager_window import Ui_MainWindow
-from ui.ui_import_asset import Ui_Dialog as UiImportAssetDialog
-from ui.ui_import_texture import Ui_Dialog as UiImportTextureDialog
-from ui.ui_create_material import Ui_Dialog as UiCreateMaterialDialog
-from ui.ui_item_widget import Ui_Form as UiItemWidget
+from ui.ui_setups.ui_manager_window import Ui_MainWindow
+from ui.ui_setups.ui_import_asset import Ui_Dialog as UiImportAssetDialog
+from ui.ui_setups.ui_import_texture import Ui_Dialog as UiImportTextureDialog
+from ui.ui_setups.ui_create_material import Ui_Dialog as UiCreateMaterialDialog
+from ui.ui_setups.ui_item_widget import Ui_Form as UiItemWidget
 
+import os
 from bdd.database_handler import DatabaseHandler
 
 
@@ -252,6 +254,17 @@ class ImportAssetDialog(DialogTemplate):
         self.database = database
 
         self.update_material()
+        self.ui.file_btn.clicked.connect(self.select_file)
+
+    def select_file(self) -> None:
+        file_path = QFileDialog.getOpenFileName(
+            self,
+            "Select file",
+            "/home/boby/Documents/Projects/AssetManager/",
+            "(*.fbx *.obj *.abc)",
+        )[0]
+        if file_path:
+            self.ui.path_te.setText(file_path)
 
     def everything_is_correct(self) -> bool:
         if self.ui.name_te.toPlainText() == "":
@@ -260,6 +273,10 @@ class ImportAssetDialog(DialogTemplate):
 
         if self.ui.path_te.toPlainText() == "":
             print("Please enter a valid Path")
+            return False
+
+        if not os.path.exists(self.ui.path_te.toPlainText()):
+            print("Path not exists")
             return False
 
         if self.path_already_exist():

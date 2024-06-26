@@ -30,7 +30,7 @@ class Ui_Dialog(object):
         self.gridLayout.setObjectName(u"gridLayout")
         self.name_te = QTextEdit(Dialog)
         self.name_te.setObjectName(u"name_te")
-        self.name_te.setMaximumSize(QSize(16777215, 25))
+        self.name_te.setMaximumSize(QSize(16777215, 28))
         self.name_te.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.name_te.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
@@ -44,7 +44,7 @@ class Ui_Dialog(object):
 
         self.path_te = QTextEdit(Dialog)
         self.path_te.setObjectName(u"path_te")
-        self.path_te.setMaximumSize(QSize(16777215, 25))
+        self.path_te.setMaximumSize(QSize(16777215, 28))
         self.path_te.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.path_te.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 

@@ -39,6 +39,12 @@
       </item>
       <item row="3" column="2">
        <widget class="QComboBox" name="roughness_cb">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>28</height>
+         </size>
+        </property>
         <item>
          <property name="text">
           <string>None</string>
@@ -48,6 +54,12 @@
       </item>
       <item row="2" column="2">
        <widget class="QComboBox" name="specular_cb">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>28</height>
+         </size>
+        </property>
         <item>
          <property name="text">
           <string>None</string>
@@ -67,7 +79,7 @@
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>25</height>
+          <height>28</height>
          </size>
         </property>
         <property name="verticalScrollBarPolicy">
@@ -100,6 +112,12 @@
       </item>
       <item row="1" column="2">
        <widget class="QComboBox" name="diffuse_cb">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>28</height>
+         </size>
+        </property>
         <item>
          <property name="text">
           <string>None</string>
@@ -119,6 +137,12 @@
       </item>
       <item row="5" column="2">
        <widget class="QComboBox" name="normal_cb">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>28</height>
+         </size>
+        </property>
         <item>
          <property name="text">
           <string>None</string>
@@ -145,6 +169,12 @@
       </item>
       <item row="6" column="2">
        <widget class="QComboBox" name="displacement_cb">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>28</height>
+         </size>
+        </property>
         <item>
          <property name="text">
           <string>None</string>
@@ -164,6 +194,12 @@
       </item>
       <item row="4" column="2">
        <widget class="QComboBox" name="metalness_cb">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>28</height>
+         </size>
+        </property>
         <item>
          <property name="text">
           <string>None</string>

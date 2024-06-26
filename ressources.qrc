@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="icons">
+    <file>ui/ressources/material.png</file>
+    <file>ui/ressources/model.png</file>
+    <file>ui/ressources/texture.png</file>
     <file>ui/ressources/folder.png</file>
   </qresource>
 </RCC>
