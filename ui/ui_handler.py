@@ -20,41 +20,10 @@ from ui.ui_dialogs import (
     CreateMaterialDialog,
     DialogTemplate,
 )
-from ui.ui_setups.ui_item_widget import Ui_Form as UiItemWidget
+
+from ui.ui_items import ItemWidget
 
 from bdd.database_handler import DatabaseHandler
-
-
-class ItemWidget(QWidget):
-    def __init__(self, item=None) -> None:
-        super().__init__()
-        self.ui = UiItemWidget()
-        self.ui.setupUi(self)
-
-        self.item = item
-        self.init_texts()
-
-    def init_texts(self) -> None:
-        if self.item is None:
-            return
-
-        self.ui.type_l.setText(self.item["type"])
-        self.ui.name_l.setText(self.item["name"])
-
-        self.init_colors()
-
-    def init_colors(self) -> None:
-        if self.item["type"] == "Models":
-            self.ui.type_l.setStyleSheet("background-color: rgb(100, 0, 0);")
-        elif self.item["type"] == "Materials":
-            self.ui.type_l.setStyleSheet("background-color: rgb(0, 100, 0);")
-        else:
-            self.ui.type_l.setStyleSheet("background-color: rgb(0, 0, 100);")
-
-    def mouseReleaseEvent(self, event) -> None:
-        if self.item is None:
-            return
-        print(self.item)
 
 
 class MainWindow(QMainWindow):

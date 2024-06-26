@@ -1,4 +1,3 @@
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QComboBox, QFileDialog, QDialog
 from ui.ui_setups.ui_import_asset import Ui_Dialog as UiImportAssetDialog
 from ui.ui_setups.ui_import_texture import Ui_Dialog as UiImportTextureDialog
@@ -90,6 +89,17 @@ class ImportTextureDialog(DialogTemplate):
     def __init__(self, database, parent=None) -> None:
         super().__init__(UiImportTextureDialog, parent)
         self.database = database
+        self.ui.file_btn.clicked.connect(self.select_file)
+
+    def select_file(self) -> None:
+        file_path = QFileDialog.getOpenFileName(
+            self,
+            "Select file",
+            "/home/boby/Documents/Projects/AssetManager/",
+            "(*.exr *.jpg *.png *.tif *.tiff)",
+        )[0]
+        if file_path:
+            self.ui.path_te.setText(file_path)
 
     def everything_is_correct(self) -> bool:
         if self.ui.name_te.toPlainText() == "":
