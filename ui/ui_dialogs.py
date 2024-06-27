@@ -93,7 +93,7 @@ class ImportAssetDialog(DialogTemplate):
                     self.all_infos["material_id"] = id
 
     def update_material(self) -> None:
-        materials = self.database.get_all_item_of_table("Materials")
+        materials = self.database.get_all_item_of_table("Materials", "")
         for i, mat in enumerate(materials):
             self.materials[mat["id"]] = i + 1  # Store material index at id
             self.ui.material_cb.addItem(mat["name"])
