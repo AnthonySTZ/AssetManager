@@ -104,17 +104,42 @@
            </property>
            <property name="styleSheet">
             <string notr="true">.QListWidget{
-
 	border: 0;
 	background: transparent;
 }
 
-QScrollBar{
-
-	color: rgb(100, 0, 0);
-	background-color: rgb(0, 100, 0);
+QScrollBar:vertical{
+	background: rgb(30, 30, 30);
+	width:10px;
 }
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
+}
+
+QScrollBar::handle:vertical {
+	background-color: rgb(60, 60, 60);
+	border-radius: 5px;
+}
+
+QScrollBar::add-line:vertical {
+      border: none;
+      background: none;
+}
+
+QScrollBar::sub-line:vertical {
+      border: none;
+      background: none;
+}
+
+
 </string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
            </property>
            <property name="verticalScrollBarPolicy">
             <enum>Qt::ScrollBarAlwaysOn</enum>
@@ -125,6 +150,9 @@ QScrollBar{
            <property name="autoScroll">
             <bool>true</bool>
            </property>
+           <property name="autoScrollMargin">
+            <number>16</number>
+           </property>
            <property name="selectionMode">
             <enum>QAbstractItemView::NoSelection</enum>
            </property>
@@ -133,6 +161,9 @@ QScrollBar{
            </property>
            <property name="horizontalScrollMode">
             <enum>QAbstractItemView::ScrollPerPixel</enum>
+           </property>
+           <property name="movement">
+            <enum>QListView::Free</enum>
            </property>
           </widget>
          </item>

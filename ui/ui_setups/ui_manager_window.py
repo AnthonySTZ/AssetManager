@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QApplication, QGridLayout, QHBoxLayout,
-    QListWidget, QListWidgetItem, QMainWindow, QPushButton,
-    QSizePolicy, QSpacerItem, QTextEdit, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QFrame, QGridLayout,
+    QHBoxLayout, QListView, QListWidget, QListWidgetItem,
+    QMainWindow, QPushButton, QSizePolicy, QSpacerItem,
+    QTextEdit, QVBoxLayout, QWidget)
 import ressources_rc
 
 class Ui_MainWindow(object):
@@ -85,17 +85,46 @@ class Ui_MainWindow(object):
         self.items_lw.setMouseTracking(False)
         self.items_lw.setFocusPolicy(Qt.NoFocus)
         self.items_lw.setStyleSheet(u".QListWidget{\n"
-"\n"
 "	border: 0;\n"
 "	background: transparent;\n"
 "}\n"
 "\n"
+"QScrollBar:vertical{\n"
+"	background: rgb(30, 30, 30);\n"
+"	width:10px;\n"
+"}\n"
+"\n"
+"QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"    background: none;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical {\n"
+"	background-color: rgb(60, 60, 60);\n"
+"	border-radius: 5px;\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical {\n"
+"      border: none;\n"
+"      background: none;\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical {\n"
+"      border: none;\n"
+"      background: none;\n"
+"}\n"
+"\n"
+"\n"
 "")
+        self.items_lw.setFrameShape(QFrame.StyledPanel)
+        self.items_lw.setFrameShadow(QFrame.Sunken)
+        self.items_lw.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.items_lw.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.items_lw.setAutoScroll(True)
+        self.items_lw.setAutoScrollMargin(16)
         self.items_lw.setSelectionMode(QAbstractItemView.NoSelection)
         self.items_lw.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.items_lw.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
+        self.items_lw.setMovement(QListView.Free)
 
         self.horizontalLayout.addWidget(self.items_lw)
 

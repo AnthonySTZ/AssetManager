@@ -97,6 +97,8 @@ class ItemWidget(QWidget):
                 self.item["id"], self.item["name"], material_infos
             )
 
+        self.init_texts()
+
     def show_dialog(self, dialog_class: DialogTemplate, item) -> dict:
         dialog = dialog_class(self.database, item, self)
         dialog.exec()

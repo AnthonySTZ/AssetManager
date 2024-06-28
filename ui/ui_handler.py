@@ -120,7 +120,6 @@ class MainWindow(QMainWindow):
     def create_material(self, material_infos: dict) -> None:
         if material_infos == {}:
             return
-        textures = self.database_handler.get_all_item_of_table("Textures")
         map_dict = {
             "diffuse_id": None,
             "specular_id": None,
