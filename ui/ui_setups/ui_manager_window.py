@@ -46,6 +46,7 @@ class Ui_MainWindow(object):
 "	border : 1px solid grey;\n"
 "	border-radius: 15px;\n"
 "	padding-left : 8px;\n"
+"	padding-top: 3px;\n"
 "\n"
 "}")
         self.search_te.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)

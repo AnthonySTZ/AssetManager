@@ -1,5 +1,5 @@
 """
-Scripts for Handling all UI elements
+Scripts for Handling main window
 """
 
 from PySide6.QtCore import Qt
@@ -31,6 +31,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.items_lw.horizontalScrollBar().setEnabled(False)
         self.filter_type = {"Models": True, "Textures": True, "Materials": True}
 
         self.init_buttons()

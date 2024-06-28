@@ -98,7 +98,7 @@ class DatabaseHandler:
     def link_material(self, asset_id: int, material_id: int) -> None:
 
         cursor = self.conn.cursor()
-        query = f"UPDATE Models SET material_id = ? WHERE id = ?;"
+        query = "UPDATE Models SET material_id = ? WHERE id = ?;"
         cursor.execute(query, (material_id, asset_id,))
         cursor.close()
         self.conn.commit()
@@ -106,10 +106,10 @@ class DatabaseHandler:
     def update_model(self, asset_id: int, name: str, path: str, material_id: int) -> None:
         cursor = self.conn.cursor()
         if material_id is not None:
-            query = f"UPDATE Models SET name = ?, path = ?, material_id = ? WHERE id = ?;"
+            query = "UPDATE Models SET name = ?, path = ?, material_id = ? WHERE id = ?;"
             cursor.execute(query, (name, path, material_id, asset_id,))
         else:
-            query = f"UPDATE Models SET name = ?, path = ? WHERE id = ?;"
+            query = "UPDATE Models SET name = ?, path = ? WHERE id = ?;"
             cursor.execute(query, (name, path, asset_id,))
 
         cursor.close()
@@ -117,7 +117,7 @@ class DatabaseHandler:
     
     def update_texture(self, texture_id: int, name: str, path: str) -> None:
         cursor = self.conn.cursor()
-        query = f"UPDATE Textures SET name = ?, path = ? WHERE id = ?;"
+        query = "UPDATE Textures SET name = ?, path = ? WHERE id = ?;"
         cursor.execute(query, (name, path, texture_id,))
 
         cursor.close()
@@ -128,7 +128,7 @@ class DatabaseHandler:
         maps = " = ?, ".join(maps_dict.keys()) + " = ?"
         
         cursor = self.conn.cursor()
-        query = f"UPDATE Materials SET name = ?, {maps} WHERE id = ?;"
+        query = "UPDATE Materials SET name = ?, {maps} WHERE id = ?;"
         cursor.execute(query, (name,) + tuple(maps_dict.values()) + (material_id,))
 
         cursor.close()

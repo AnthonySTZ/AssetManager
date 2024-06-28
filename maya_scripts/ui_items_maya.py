@@ -1,15 +1,9 @@
-from PySide6.QtWidgets import QWidget, QTextEdit, QComboBox
-from PySide6.QtGui import QPixmap
-from ui.ui_setups.ui_item_widget import Ui_Form as UiItemWidget
-from ui.ui_dialogs import (
-    ImportAssetDialog,
-    ImportTextureDialog,
-    CreateMaterialDialog,
-    DialogTemplate,
-)
-from bdd.database_handler import DatabaseHandler
+from PySide2.QtWidgets import QWidget, QTextEdit, QComboBox
+from PySide2.QtGui import QPixmap
+from maya_scripts.ui.ui_item_widget import Ui_Form as UiItemWidget
+from bdd.database_handler_maya import DatabaseHandler
 import os
-import ressources_rc
+import ressources_maya_rc
 
 
 class ItemWidget(QWidget):
@@ -46,10 +40,10 @@ class ItemWidget(QWidget):
         if "path" in self.item:
             if not os.path.exists(self.item["path"]):
                 icon_name = "error"
-        icon = QPixmap(f":/icons/ui/ressources/{icon_name}.png")
+        icon = QPixmap(":/icons/ui/ressources/" + icon_name + ".png")
         self.ui.img_l.setPixmap(icon)
 
-    def mouseReleaseEvent(self, event) -> None:
+    """def mouseReleaseEvent(self, event) -> None:
         if self.item is None:
             return
 
@@ -99,9 +93,4 @@ class ItemWidget(QWidget):
                 self.item["id"], self.item["name"], material_infos
             )
 
-        self.init_texts()
-
-    def show_dialog(self, dialog_class: DialogTemplate, item) -> dict:
-        dialog = dialog_class(self.database, item, self)
-        dialog.exec()
-        return dialog.all_infos
+        self.init_texts()"""
