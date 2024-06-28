@@ -27,12 +27,14 @@ class DatabaseHandler:
 
         cursor = self.conn.cursor()
 
+        query = "PRAGMA foreign_keys=off;"
         for table in ALL_TABLES:
-            query = table
-            cursor.execute(query)
+            query += table                        
+        query += "PRAGMA foreign_keys=on;"
 
-        cursor.close()
+        cursor.executescript(query)
         self.conn.commit()
+        cursor.close()
 
     def close_connection(self) -> None:
         """Close database connection"""
@@ -147,3 +149,11 @@ class DatabaseHandler:
         for item in response:
             item["type"] = table
         return response
+
+    def delete_row_by_id(self, table:str, id:int)->None:
+        cursor = self.conn.cursor()
+
+        query = f"DELETE FROM {table} WHERE id = ?;"
+        cursor.execute(query, (id,))
+        cursor.close()
+        self.conn.commit()

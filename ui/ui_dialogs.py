@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QComboBox, QFileDialog, QDialog
+from PySide6.QtWidgets import QComboBox, QFileDialog, QDialog, QMessageBox
 from ui.ui_setups.ui_import_asset import Ui_Dialog as UiImportAssetDialog
 from ui.ui_setups.ui_import_texture import Ui_Dialog as UiImportTextureDialog
 from ui.ui_setups.ui_create_material import Ui_Dialog as UiCreateMaterialDialog
@@ -35,13 +35,17 @@ class DialogTemplate(QDialog):
 
 class ImportAssetDialog(DialogTemplate):
     def __init__(
-        self, database: DatabaseHandler, existing_item: None, parent=None
+        self, database: DatabaseHandler, existing_item: {}, parent=None
     ) -> None:
         super().__init__(UiImportAssetDialog, parent)
         self.database = database
         self.materials = {}  # material_id : index
         self.all_infos = {}
         self.item = existing_item
+        if self.item == {}:
+            self.ui.delete_btn.hide()
+        else:
+            self.ui.delete_btn.clicked.connect(self.delete_item)
 
         self.update_material()
         self.ui.file_btn.clicked.connect(self.select_file)
@@ -98,6 +102,25 @@ class ImportAssetDialog(DialogTemplate):
             self.materials[mat["id"]] = i + 1  # Store material index at id
             self.ui.material_cb.addItem(mat["name"])
 
+    def delete_item_popup(self) -> bool:
+        message = QMessageBox()
+        response = message.question(
+            self,
+            "",
+            "Are you sure to delete this asset ?",
+            QMessageBox.Yes | QMessageBox.No,
+        )
+        return response == QMessageBox.Yes
+
+    def delete_item(self) -> None:
+        is_ok = self.delete_item_popup()
+        if not is_ok:
+            return
+
+        self.database.delete_row_by_id("Models", self.item["id"])
+        self.all_infos = {}
+        self.close()
+
 
 class ImportTextureDialog(DialogTemplate):
     def __init__(
@@ -109,7 +132,10 @@ class ImportTextureDialog(DialogTemplate):
 
         self.all_infos = {}
         self.item = existing_item
-        if self.item != {}:
+        if self.item == {}:
+            self.ui.delete_btn.hide()
+        else:
+            self.ui.delete_btn.clicked.connect(self.delete_item)
             self.update_infos()
 
     def update_infos(self) -> None:
@@ -143,6 +169,24 @@ class ImportTextureDialog(DialogTemplate):
         self.all_infos["name"] = self.ui.name_te.toPlainText()
         self.all_infos["path"] = self.ui.path_te.toPlainText()
 
+    def delete_item_popup(self) -> bool:
+        message = QMessageBox()
+        response = message.question(
+            self,
+            "",
+            "Are you sure to delete this texture ?",
+            QMessageBox.Yes | QMessageBox.No,
+        )
+        return response == QMessageBox.Yes
+
+    def delete_item(self) -> None:
+        is_ok = self.delete_item_popup()
+        if not is_ok:
+            return
+        self.database.delete_row_by_id("Textures", self.item["id"])
+        self.all_infos = {}
+        self.close()
+
 
 class CreateMaterialDialog(DialogTemplate):
     def __init__(self, database, existing_item: None, parent=None) -> None:
@@ -153,8 +197,10 @@ class CreateMaterialDialog(DialogTemplate):
         self.all_infos = {}
         self.item = existing_item
         self.get_all_textures()
-
-        if self.item != {}:
+        if self.item == {}:
+            self.ui.delete_btn.hide()
+        else:
+            self.ui.delete_btn.clicked.connect(self.delete_item)
             self.update_infos()
 
     def update_infos(self) -> None:
@@ -223,3 +269,21 @@ class CreateMaterialDialog(DialogTemplate):
             self.textures[texture["id"]] = i + 1
             for cb in self.ui.mainFrame.findChildren(QComboBox):
                 cb.addItem(texture["name"])
+
+    def delete_item_popup(self) -> bool:
+        message = QMessageBox()
+        response = message.question(
+            self,
+            "",
+            "Are you sure to delete this Material ?",
+            QMessageBox.Yes | QMessageBox.No,
+        )
+        return response == QMessageBox.Yes
+
+    def delete_item(self) -> None:
+        is_ok = self.delete_item_popup()
+        if not is_ok:
+            return
+        self.database.delete_row_by_id("Materials", self.item["id"])
+        self.all_infos = {}
+        self.close()

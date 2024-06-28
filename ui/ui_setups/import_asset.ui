@@ -16,13 +16,6 @@
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="3" column="0" colspan="2">
-      <widget class="QPushButton" name="cancel_btn">
-       <property name="text">
-        <string>Cancel</string>
-       </property>
-      </widget>
-     </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
@@ -148,6 +141,20 @@
       <widget class="QPushButton" name="accept_btn">
        <property name="text">
         <string>Accept</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QPushButton" name="cancel_btn">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QPushButton" name="delete_btn">
+       <property name="text">
+        <string>Delete Asset</string>
        </property>
       </widget>
      </item>

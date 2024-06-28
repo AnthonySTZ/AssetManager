@@ -1,5 +1,5 @@
 Pipfile
 test_files/
 assets.db
-tmp.py
 __pycache__
+ressources.qrc

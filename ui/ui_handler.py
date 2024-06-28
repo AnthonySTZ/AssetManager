@@ -154,7 +154,8 @@ class MainWindow(QMainWindow):
         list_widget.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         list_widget.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
         list_widget.setFixedSize(
-            self.ui.items_lw.width(), ItemWidget(self.database_handler).height() + 10
+            self.ui.items_lw.width(),
+            ItemWidget(self, self.database_handler).height() + 10,
         )
         self.add_item_to_listWidget(self.ui.items_lw, list_widget)
 
@@ -163,7 +164,7 @@ class MainWindow(QMainWindow):
         last_row_item = self.ui.items_lw.item(self.ui.items_lw.count() - 1)
         last_row = self.ui.items_lw.itemWidget(last_row_item)
         last_row_item_nb = last_row.count()
-        widget_width = ItemWidget(self.database_handler).width()
+        widget_width = ItemWidget(self, self.database_handler).width()
         return (last_row_item_nb + 1) * widget_width > self.ui.items_lw.width()
 
     def add_item(self, item) -> None:
@@ -173,7 +174,7 @@ class MainWindow(QMainWindow):
         elif self.is_item_row_full():
             self.add_item_row(item)
 
-        item_widget = ItemWidget(self.database_handler, item)
+        item_widget = ItemWidget(self, self.database_handler, item)
         last_row_item = self.ui.items_lw.item(self.ui.items_lw.count() - 1)
         self.add_item_to_listWidget(
             self.ui.items_lw.itemWidget(last_row_item), item_widget

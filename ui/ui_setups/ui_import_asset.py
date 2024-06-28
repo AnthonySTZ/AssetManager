@@ -29,11 +29,6 @@ class Ui_Dialog(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.cancel_btn = QPushButton(Dialog)
-        self.cancel_btn.setObjectName(u"cancel_btn")
-
-        self.gridLayout.addWidget(self.cancel_btn, 3, 0, 1, 2)
-
         self.label_3 = QLabel(Dialog)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setAlignment(Qt.AlignCenter)
@@ -99,6 +94,16 @@ class Ui_Dialog(object):
 
         self.gridLayout.addWidget(self.accept_btn, 3, 2, 1, 2)
 
+        self.cancel_btn = QPushButton(Dialog)
+        self.cancel_btn.setObjectName(u"cancel_btn")
+
+        self.gridLayout.addWidget(self.cancel_btn, 3, 1, 1, 1)
+
+        self.delete_btn = QPushButton(Dialog)
+        self.delete_btn.setObjectName(u"delete_btn")
+
+        self.gridLayout.addWidget(self.delete_btn, 3, 0, 1, 1)
+
 
         self.horizontalLayout.addLayout(self.gridLayout)
 
@@ -110,7 +115,6 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
-        self.cancel_btn.setText(QCoreApplication.translate("Dialog", u"Cancel", None))
         self.label_3.setText(QCoreApplication.translate("Dialog", u"Material :", None))
         self.label_2.setText(QCoreApplication.translate("Dialog", u"Path :", None))
         self.label.setText(QCoreApplication.translate("Dialog", u"Name :", None))
@@ -118,5 +122,7 @@ class Ui_Dialog(object):
         self.material_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
         self.accept_btn.setText(QCoreApplication.translate("Dialog", u"Accept", None))
+        self.cancel_btn.setText(QCoreApplication.translate("Dialog", u"Cancel", None))
+        self.delete_btn.setText(QCoreApplication.translate("Dialog", u"Delete Asset", None))
     # retranslateUi
 

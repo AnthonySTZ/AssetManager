@@ -6,7 +6,7 @@ TABLE_MODELS = "CREATE TABLE IF NOT EXISTS Models (\
                     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
                     name TEXT NOT NULL,\
                     path TEXT NOT NULL,\
-                    material_id INTERGER REFERENCES Materials (id)\
+                    material_id INTERGER REFERENCES Materials (id) ON DELETE SET NULL\
                     );"
 
 TABLE_TEXTURES = "CREATE TABLE IF NOT EXISTS Textures (\
@@ -18,13 +18,12 @@ TABLE_TEXTURES = "CREATE TABLE IF NOT EXISTS Textures (\
 TABLE_MATERIALS = "CREATE TABLE IF NOT EXISTS Materials (\
                     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
                     name TEXT NOT NULL,\
-                    diffuse_id INTEGER REFERENCES Textures (id),\
-                    specular_id INTEGER REFERENCES Textures (id),\
-                    roughness_id INTEGER REFERENCES Textures (id),\
-                    metalness_id INTEGER REFERENCES Textures (id),\
-                    normal_id INTEGER REFERENCES Textures (id),\
-                    displacement_id INTEGER REFERENCES Textures (id)\
+                    diffuse_id INTEGER REFERENCES Textures (id) ON DELETE SET NULL,\
+                    specular_id INTEGER REFERENCES Textures (id) ON DELETE SET NULL,\
+                    roughness_id INTEGER REFERENCES Textures (id) ON DELETE SET NULL,\
+                    metalness_id INTEGER REFERENCES Textures (id) ON DELETE SET NULL,\
+                    normal_id INTEGER REFERENCES Textures (id) ON DELETE SET NULL,\
+                    displacement_id INTEGER REFERENCES Textures (id) ON DELETE SET NULL\
                     );"
-
 
 ALL_TABLES = [TABLE_MODELS, TABLE_TEXTURES, TABLE_MATERIALS]

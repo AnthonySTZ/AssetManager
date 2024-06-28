@@ -13,11 +13,12 @@ import ressources_rc
 
 
 class ItemWidget(QWidget):
-    def __init__(self, database: DatabaseHandler, item=None) -> None:
+    def __init__(self, parentDialog, database: DatabaseHandler, item=None) -> None:
         super().__init__()
         self.ui = UiItemWidget()
         self.ui.setupUi(self)
         self.database = database
+        self.parentDialog = parentDialog
 
         self.item = item
         self.init_texts()
@@ -56,6 +57,7 @@ class ItemWidget(QWidget):
         if self.item["type"] == "Models":
             asset_infos = self.show_dialog(ImportAssetDialog, self.item)
             if asset_infos == {}:
+                self.parentDialog.refresh_items()
                 return
 
             asset_infos["id"] = self.item["id"]
@@ -72,6 +74,7 @@ class ItemWidget(QWidget):
         elif self.item["type"] == "Textures":
             texture_infos = self.show_dialog(ImportTextureDialog, self.item)
             if texture_infos == {}:
+                self.parentDialog.refresh_items()
                 return
 
             texture_infos["id"] = self.item["id"]
@@ -85,6 +88,7 @@ class ItemWidget(QWidget):
         elif self.item["type"] == "Materials":
             material_infos = self.show_dialog(CreateMaterialDialog, self.item)
             if material_infos == {}:
+                self.parentDialog.refresh_items()
                 return
 
             material_infos["id"] = self.item["id"]
@@ -98,6 +102,8 @@ class ItemWidget(QWidget):
             self.database.update_material(
                 self.item["id"], self.item["name"], material_infos
             )
+
+        self.parentDialog.refresh_items()
 
         self.init_texts()
 

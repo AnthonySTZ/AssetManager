@@ -30,36 +30,31 @@ class Ui_Dialog(object):
         self.mainFrame.setObjectName(u"mainFrame")
         self.gridLayout = QGridLayout(self.mainFrame)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.label_6 = QLabel(self.mainFrame)
-        self.label_6.setObjectName(u"label_6")
-        self.label_6.setAlignment(Qt.AlignCenter)
+        self.accept_btn = QPushButton(self.mainFrame)
+        self.accept_btn.setObjectName(u"accept_btn")
 
-        self.gridLayout.addWidget(self.label_6, 0, 0, 1, 1)
-
-        self.label_5 = QLabel(self.mainFrame)
-        self.label_5.setObjectName(u"label_5")
-        self.label_5.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.label_5, 6, 0, 1, 1)
+        self.gridLayout.addWidget(self.accept_btn, 7, 3, 1, 1)
 
         self.roughness_cb = QComboBox(self.mainFrame)
         self.roughness_cb.addItem("")
         self.roughness_cb.setObjectName(u"roughness_cb")
         self.roughness_cb.setMaximumSize(QSize(16777215, 28))
 
-        self.gridLayout.addWidget(self.roughness_cb, 3, 2, 1, 1)
+        self.gridLayout.addWidget(self.roughness_cb, 3, 3, 1, 1)
 
         self.specular_cb = QComboBox(self.mainFrame)
         self.specular_cb.addItem("")
         self.specular_cb.setObjectName(u"specular_cb")
         self.specular_cb.setMaximumSize(QSize(16777215, 28))
 
-        self.gridLayout.addWidget(self.specular_cb, 2, 2, 1, 1)
+        self.gridLayout.addWidget(self.specular_cb, 2, 3, 1, 1)
 
-        self.accept_btn = QPushButton(self.mainFrame)
-        self.accept_btn.setObjectName(u"accept_btn")
+        self.diffuse_cb = QComboBox(self.mainFrame)
+        self.diffuse_cb.addItem("")
+        self.diffuse_cb.setObjectName(u"diffuse_cb")
+        self.diffuse_cb.setMaximumSize(QSize(16777215, 28))
 
-        self.gridLayout.addWidget(self.accept_btn, 7, 2, 1, 1)
+        self.gridLayout.addWidget(self.diffuse_cb, 1, 3, 1, 1)
 
         self.name_te = QTextEdit(self.mainFrame)
         self.name_te.setObjectName(u"name_te")
@@ -67,70 +62,80 @@ class Ui_Dialog(object):
         self.name_te.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.name_te.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
-        self.gridLayout.addWidget(self.name_te, 0, 2, 1, 1)
+        self.gridLayout.addWidget(self.name_te, 0, 3, 1, 1)
 
-        self.label_4 = QLabel(self.mainFrame)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setAlignment(Qt.AlignCenter)
+        self.cancel_btn = QPushButton(self.mainFrame)
+        self.cancel_btn.setObjectName(u"cancel_btn")
 
-        self.gridLayout.addWidget(self.label_4, 5, 0, 1, 1)
-
-        self.label_2 = QLabel(self.mainFrame)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
-
-        self.diffuse_cb = QComboBox(self.mainFrame)
-        self.diffuse_cb.addItem("")
-        self.diffuse_cb.setObjectName(u"diffuse_cb")
-        self.diffuse_cb.setMaximumSize(QSize(16777215, 28))
-
-        self.gridLayout.addWidget(self.diffuse_cb, 1, 2, 1, 1)
-
-        self.label_3 = QLabel(self.mainFrame)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.label_3, 3, 0, 1, 1)
+        self.gridLayout.addWidget(self.cancel_btn, 7, 1, 1, 1)
 
         self.normal_cb = QComboBox(self.mainFrame)
         self.normal_cb.addItem("")
         self.normal_cb.setObjectName(u"normal_cb")
         self.normal_cb.setMaximumSize(QSize(16777215, 28))
 
-        self.gridLayout.addWidget(self.normal_cb, 5, 2, 1, 1)
-
-        self.cancel_btn = QPushButton(self.mainFrame)
-        self.cancel_btn.setObjectName(u"cancel_btn")
-
-        self.gridLayout.addWidget(self.cancel_btn, 7, 0, 1, 1)
-
-        self.label = QLabel(self.mainFrame)
-        self.label.setObjectName(u"label")
-        self.label.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.label, 1, 0, 1, 1)
-
-        self.displacement_cb = QComboBox(self.mainFrame)
-        self.displacement_cb.addItem("")
-        self.displacement_cb.setObjectName(u"displacement_cb")
-        self.displacement_cb.setMaximumSize(QSize(16777215, 28))
-
-        self.gridLayout.addWidget(self.displacement_cb, 6, 2, 1, 1)
-
-        self.label_7 = QLabel(self.mainFrame)
-        self.label_7.setObjectName(u"label_7")
-        self.label_7.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.label_7, 4, 0, 1, 1)
+        self.gridLayout.addWidget(self.normal_cb, 5, 3, 1, 1)
 
         self.metalness_cb = QComboBox(self.mainFrame)
         self.metalness_cb.addItem("")
         self.metalness_cb.setObjectName(u"metalness_cb")
         self.metalness_cb.setMaximumSize(QSize(16777215, 28))
 
-        self.gridLayout.addWidget(self.metalness_cb, 4, 2, 1, 1)
+        self.gridLayout.addWidget(self.metalness_cb, 4, 3, 1, 1)
+
+        self.displacement_cb = QComboBox(self.mainFrame)
+        self.displacement_cb.addItem("")
+        self.displacement_cb.setObjectName(u"displacement_cb")
+        self.displacement_cb.setMaximumSize(QSize(16777215, 28))
+
+        self.gridLayout.addWidget(self.displacement_cb, 6, 3, 1, 1)
+
+        self.delete_btn = QPushButton(self.mainFrame)
+        self.delete_btn.setObjectName(u"delete_btn")
+
+        self.gridLayout.addWidget(self.delete_btn, 7, 0, 1, 1)
+
+        self.label_5 = QLabel(self.mainFrame)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_5, 6, 0, 1, 2)
+
+        self.label_4 = QLabel(self.mainFrame)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_4, 5, 0, 1, 2)
+
+        self.label_7 = QLabel(self.mainFrame)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_7, 4, 0, 1, 2)
+
+        self.label_3 = QLabel(self.mainFrame)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_3, 3, 0, 1, 2)
+
+        self.label_2 = QLabel(self.mainFrame)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_2, 2, 0, 1, 2)
+
+        self.label = QLabel(self.mainFrame)
+        self.label.setObjectName(u"label")
+        self.label.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label, 1, 0, 1, 2)
+
+        self.label_6 = QLabel(self.mainFrame)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_6, 0, 0, 1, 2)
 
 
         self.horizontalLayout.addWidget(self.mainFrame)
@@ -143,26 +148,27 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
-        self.label_6.setText(QCoreApplication.translate("Dialog", u"Name :", None))
-        self.label_5.setText(QCoreApplication.translate("Dialog", u"Displacement :", None))
+        self.accept_btn.setText(QCoreApplication.translate("Dialog", u"Accept", None))
         self.roughness_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
         self.specular_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
-        self.accept_btn.setText(QCoreApplication.translate("Dialog", u"Accept", None))
-        self.label_4.setText(QCoreApplication.translate("Dialog", u"Normal :", None))
-        self.label_2.setText(QCoreApplication.translate("Dialog", u"Specular :", None))
         self.diffuse_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
-        self.label_3.setText(QCoreApplication.translate("Dialog", u"Roughness :", None))
+        self.cancel_btn.setText(QCoreApplication.translate("Dialog", u"Cancel", None))
         self.normal_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
-        self.cancel_btn.setText(QCoreApplication.translate("Dialog", u"Cancel", None))
-        self.label.setText(QCoreApplication.translate("Dialog", u"Diffuse :", None))
-        self.displacement_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
-
-        self.label_7.setText(QCoreApplication.translate("Dialog", u"Metalness", None))
         self.metalness_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
 
+        self.displacement_cb.setItemText(0, QCoreApplication.translate("Dialog", u"None", None))
+
+        self.delete_btn.setText(QCoreApplication.translate("Dialog", u"Delete Material", None))
+        self.label_5.setText(QCoreApplication.translate("Dialog", u"Displacement :", None))
+        self.label_4.setText(QCoreApplication.translate("Dialog", u"Normal :", None))
+        self.label_7.setText(QCoreApplication.translate("Dialog", u"Metalness", None))
+        self.label_3.setText(QCoreApplication.translate("Dialog", u"Roughness :", None))
+        self.label_2.setText(QCoreApplication.translate("Dialog", u"Specular :", None))
+        self.label.setText(QCoreApplication.translate("Dialog", u"Diffuse :", None))
+        self.label_6.setText(QCoreApplication.translate("Dialog", u"Name :", None))
     # retranslateUi
 
