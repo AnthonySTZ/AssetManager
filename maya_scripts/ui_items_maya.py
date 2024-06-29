@@ -52,6 +52,73 @@ class ItemWidget(QWidget):
     def import_as_reference(self) -> None:
         pass
 
+    def create_material(self) -> str:
+        material = cmds.shadingNode(
+            "aiStandardSurface", asShader=True, name=self.item["name"]
+        )
+        shading_engine = cmds.sets(
+            name=material + "SG", empty=True, renderable=True, noSurfaceShader=True
+        )
+        cmds.connectAttr(material + ".outColor", shading_engine + ".surfaceShader")
+        return shading_engine
+
+    def assign_material(self, objects, shaderSG) -> None:
+        if objects:
+            cmds.sets(objects, e=True, forceElement=shaderSG)
+
+    def import_asset_dialog(self) -> None:
+        import_message = QMessageBox()
+        import_message.setWindowTitle("Import as")
+        import_message.setText("Import : " + self.item["name"])
+        import_message.setStandardButtons(
+            QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel
+        )
+        import_message.button(QMessageBox.Yes).setText("Import")
+        import_message.button(QMessageBox.No).setText("Import as reference")
+        import_as = (
+            import_message.exec_()
+        )  # Yes : normal import, No : import as reference, Cancel: cancel import
+
+        if import_as == QMessageBox.Cancel:
+            print("Import aborted")
+            return
+
+        if import_as == QMessageBox.Yes:  # Normal import
+            self.normal_import()
+            return
+
+        if import_as == QMessageBox.No:  # reference import
+            self.import_as_reference()
+            return
+
+    def import_material_dialog(self, objects) -> None:
+        import_message = QMessageBox()
+        import_message.setWindowTitle("Import Material")
+        import_message.setText("Import : " + self.item["name"])
+        import_message.setStandardButtons(
+            QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel
+        )
+        import_message.button(QMessageBox.Yes).setText("Import")
+        import_message.button(QMessageBox.No).setText(
+            "Import and assign to selected objects"
+        )
+        import_as = (
+            import_message.exec_()
+        )  # Yes : normal import, No : import as reference, Cancel: cancel import
+
+        if import_as == QMessageBox.Cancel:
+            print("Import aborted")
+            return
+
+        if import_as == QMessageBox.Yes:  # Normal import
+            self.create_material()
+            return
+
+        if import_as == QMessageBox.No:  # import and assign
+            shaderSG = self.create_material()
+            self.assign_material(objects, shaderSG)
+            return
+
     def mouseReleaseEvent(self, event) -> None:
         if self.item is None:
             return
@@ -62,26 +129,11 @@ class ItemWidget(QWidget):
                 return
 
             print("Import Asset")
-            import_message = QMessageBox()
-            import_message.setWindowTitle("Import as")
-            import_message.setText("Import : " + self.item["name"])
-            import_message.setStandardButtons(
-                QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel
-            )
-            import_message.button(QMessageBox.Yes).setText("Import")
-            import_message.button(QMessageBox.No).setText("Import as reference")
-            import_as = (
-                import_message.exec_()
-            )  # Yes : normal import, No : import as reference, Cancel: cancel import
+            self.import_asset_dialog()
+            return
 
-            if import_as == QMessageBox.Cancel:
-                print("Import aborted")
-                return
-
-            if import_as == QMessageBox.Yes:  # Normal import
-                self.normal_import()
-                return
-
-            if import_as == QMessageBox.No:  # reference import
-                self.import_as_reference()
-                return
+        if self.item["type"] == "Materials":
+            print("Import Material")
+            obj_selected = cmds.ls(sl=True, l=True)  # Get selected objects
+            self.import_material_dialog(obj_selected)
+            return
