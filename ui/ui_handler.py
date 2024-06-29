@@ -96,11 +96,13 @@ class MainWindow(QMainWindow):
         asset_id = self.database_handler.add_asset(
             asset_infos["name"], asset_infos["path"]
         )
-        if asset_infos["material_id"] > 0:
-            self.database_handler.link_material(
-                asset_id,
-                asset_infos["material_id"],
-            )
+
+        if asset_infos["material_id"] is not None:
+            if asset_infos["material_id"] > 0:
+                self.database_handler.link_material(
+                    asset_id,
+                    asset_infos["material_id"],
+                )
         self.refresh_items(updateItems=True)
 
     def import_texture_event(self) -> None:

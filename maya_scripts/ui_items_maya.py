@@ -1,9 +1,10 @@
-from PySide2.QtWidgets import QWidget, QTextEdit, QComboBox
+from PySide2.QtWidgets import QWidget, QTextEdit, QComboBox, QPushButton, QMessageBox
 from PySide2.QtGui import QPixmap
 from maya_scripts.ui.ui_item_widget import Ui_Form as UiItemWidget
-from bdd.database_handler_maya import DatabaseHandler
+from bdd.database_handler import DatabaseHandler
 import os
 import ressources_maya_rc
+import maya.cmds as cmds
 
 
 class ItemWidget(QWidget):
@@ -43,54 +44,44 @@ class ItemWidget(QWidget):
         icon = QPixmap(":/icons/ui/ressources/" + icon_name + ".png")
         self.ui.img_l.setPixmap(icon)
 
-    """def mouseReleaseEvent(self, event) -> None:
+    def normal_import(self) -> None:
+        obj = cmds.file(self.item["path"], i=True, namespace=":")
+        if self.item["material_id"] is None:
+            return
+
+    def import_as_reference(self) -> None:
+        pass
+
+    def mouseReleaseEvent(self, event) -> None:
         if self.item is None:
             return
 
         if self.item["type"] == "Models":
-            asset_infos = self.show_dialog(ImportAssetDialog, self.item)
-            if asset_infos == {}:
+            if not os.path.exists(self.item["path"]):
+                print("Asset not found")
                 return
 
-            asset_infos["id"] = self.item["id"]
-            asset_infos["type"] = self.item["type"]
-            self.item = asset_infos.copy()
-
-            self.database.update_model(
-                self.item["id"],
-                self.item["name"],
-                self.item["path"],
-                self.item["material_id"],
+            print("Import Asset")
+            import_message = QMessageBox()
+            import_message.setWindowTitle("Import as")
+            import_message.setText("Import : " + self.item["name"])
+            import_message.setStandardButtons(
+                QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel
             )
+            import_message.button(QMessageBox.Yes).setText("Import")
+            import_message.button(QMessageBox.No).setText("Import as reference")
+            import_as = (
+                import_message.exec_()
+            )  # Yes : normal import, No : import as reference, Cancel: cancel import
 
-        elif self.item["type"] == "Textures":
-            texture_infos = self.show_dialog(ImportTextureDialog, self.item)
-            if texture_infos == {}:
+            if import_as == QMessageBox.Cancel:
+                print("Import aborted")
                 return
 
-            texture_infos["id"] = self.item["id"]
-            texture_infos["type"] = self.item["type"]
-            self.item = texture_infos.copy()
-
-            self.database.update_texture(
-                self.item["id"], self.item["name"], self.item["path"]
-            )
-
-        elif self.item["type"] == "Materials":
-            material_infos = self.show_dialog(CreateMaterialDialog, self.item)
-            if material_infos == {}:
+            if import_as == QMessageBox.Yes:  # Normal import
+                self.normal_import()
                 return
 
-            material_infos["id"] = self.item["id"]
-            material_infos["type"] = self.item["type"]
-
-            self.item = material_infos.copy()
-            del material_infos["id"]
-            del material_infos["name"]
-            del material_infos["type"]
-
-            self.database.update_material(
-                self.item["id"], self.item["name"], material_infos
-            )
-
-        self.init_texts()"""
+            if import_as == QMessageBox.No:  # reference import
+                self.import_as_reference()
+                return

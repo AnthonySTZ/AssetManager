@@ -1,5 +1,4 @@
 import maya.cmds as cmds
-import maya.mel as mel
 import os
 from maya import OpenMayaUI as omui
 from shiboken2 import wrapInstance
