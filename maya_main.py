@@ -6,7 +6,7 @@ sys.path.insert(0, PLUGIN_PATH)
 
 from importlib import reload
 import maya_scripts.window_maya as window_maya
-import bdd.database_handler_maya as db
+import bdd.database_handler as db
 import maya_scripts.ui_items_maya as ui_items
 
 reload(ui_items)
