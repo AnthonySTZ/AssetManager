@@ -25,7 +25,7 @@ import ressources_maya_rc
 
 
 from maya_scripts.ui_items_maya import ItemWidget
-from bdd.database_handler_maya import DatabaseHandler
+from bdd.database_handler import DatabaseHandler
 
 
 class mainWindow(QDialog):

@@ -2,7 +2,6 @@
 Handler for the files database
 """
 
-
 import os
 import sqlite3
 from bdd.databaseDDL import ALL_TABLES
@@ -13,7 +12,7 @@ class DatabaseHandler:
         """Initialize database connection"""
 
         self.conn = sqlite3.connect(
-            f"{os.path.dirname(os.path.abspath(__file__))}/{database_name}"
+            os.path.dirname(os.path.abspath(__file__)) + "/" + database_name
         )
 
         self.create_database()  # Create Database tables if not exists
@@ -29,7 +28,7 @@ class DatabaseHandler:
 
         query = "PRAGMA foreign_keys=off;"
         for table in ALL_TABLES:
-            query += table                        
+            query += table
         query += "PRAGMA foreign_keys=on;"
 
         cursor.executescript(query)
@@ -46,11 +45,13 @@ class DatabaseHandler:
 
         # datas = {"name": "Nom", "path": "/home/blabla"}
 
-        data_names = f"({", ".join(datas.keys())})"  # Ex: (name, path)
-        datas_column = f"({",".join(["?" for i in datas.keys()])})"  # Ex: (?, ?)
-        
+        data_names = "(" + ", ".join(datas.keys()) + ")"  # Ex: (name, path)
+        datas_column = "(" + ",".join(["?" for i in datas.keys()]) + ")"  # Ex: (?, ?)
+
         cursor = self.conn.cursor()
-        query = f"INSERT INTO {table} {data_names} VALUES {datas_column}"
+        query = (
+            "INSERT INTO " + table + " " + data_names + " VALUES " + datas_column + ";"
+        )
         cursor.execute(query, tuple(datas.values()))
         id = cursor.lastrowid
         cursor.close()
@@ -61,11 +62,11 @@ class DatabaseHandler:
         """Print all rows for a given table"""
 
         cursor = self.conn.cursor()
-        query = f"SELECT * FROM {table}"
+        query = "SELECT * FROM " + table + ";"
         cursor.execute(query)
         response = cursor.fetchall()
 
-        print(f"---{table} TABLE---")
+        print("---" + table + " TABLE---")
         if len(response) == 0:
             print("Nothing here :)")
 
@@ -101,46 +102,80 @@ class DatabaseHandler:
 
         cursor = self.conn.cursor()
         query = "UPDATE Models SET material_id = ? WHERE id = ?;"
-        cursor.execute(query, (material_id, asset_id,))
+        cursor.execute(
+            query,
+            (
+                material_id,
+                asset_id,
+            ),
+        )
         cursor.close()
         self.conn.commit()
-        
-    def update_model(self, asset_id: int, name: str, path: str, material_id: int) -> None:
+
+    def update_model(
+        self, asset_id: int, name: str, path: str, material_id: int
+    ) -> None:
         cursor = self.conn.cursor()
         if material_id is not None:
-            query = "UPDATE Models SET name = ?, path = ?, material_id = ? WHERE id = ?;"
-            cursor.execute(query, (name, path, material_id, asset_id,))
+            query = (
+                "UPDATE Models SET name = ?, path = ?, material_id = ? WHERE id = ?;"
+            )
+            cursor.execute(
+                query,
+                (
+                    name,
+                    path,
+                    material_id,
+                    asset_id,
+                ),
+            )
         else:
             query = "UPDATE Models SET name = ?, path = ? WHERE id = ?;"
-            cursor.execute(query, (name, path, asset_id,))
+            cursor.execute(
+                query,
+                (
+                    name,
+                    path,
+                    asset_id,
+                ),
+            )
 
         cursor.close()
         self.conn.commit()
-    
+
     def update_texture(self, texture_id: int, name: str, path: str) -> None:
         cursor = self.conn.cursor()
         query = "UPDATE Textures SET name = ?, path = ? WHERE id = ?;"
-        cursor.execute(query, (name, path, texture_id,))
+        cursor.execute(
+            query,
+            (
+                name,
+                path,
+                texture_id,
+            ),
+        )
 
         cursor.close()
         self.conn.commit()
-    
-    def update_material(self, material_id: int, name: str, maps_dict:dict) -> None:
+
+    def update_material(self, material_id: int, name: str, maps_dict: dict) -> None:
 
         maps = " = ?, ".join(maps_dict.keys()) + " = ?"
-        
+
         cursor = self.conn.cursor()
-        query = "UPDATE Materials SET name = ?, {maps} WHERE id = ?;"
+        query = "UPDATE Materials SET name = ?, " + maps + " WHERE id = ?;"
         cursor.execute(query, (name,) + tuple(maps_dict.values()) + (material_id,))
 
         cursor.close()
         self.conn.commit()
 
-    def get_all_item_of_table(self, table: str, search_text:str)->list:
+    def get_all_item_of_table(self, table: str, search_text: str) -> list:
         cursor = self.conn.cursor()
-        query = f"SELECT * FROM {table};"
+        query = "SELECT * FROM " + table + ";"
         if search_text != "":
-            query = f"SELECT * FROM {table} WHERE name LIKE '%{search_text}%';"
+            query = (
+                "SELECT * FROM " + table + " WHERE name LIKE '%" + search_text + "%';"
+            )
 
         cursor.execute(query)
         response = cursor.fetchall()
@@ -150,10 +185,10 @@ class DatabaseHandler:
             item["type"] = table
         return response
 
-    def delete_row_by_id(self, table:str, id:int)->None:
+    def delete_row_by_id(self, table: str, id: int) -> None:
         cursor = self.conn.cursor()
 
-        query = f"DELETE FROM {table} WHERE id = ?;"
+        query = "DELETE FROM " + table + " WHERE id = ?;"
         cursor.execute(query, (id,))
         cursor.close()
         self.conn.commit()
