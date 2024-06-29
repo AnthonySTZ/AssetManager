@@ -192,3 +192,12 @@ class DatabaseHandler:
         cursor.execute(query, (id,))
         cursor.close()
         self.conn.commit()
+
+    def get_item_of_table_by_id(self, table: str, id: int) -> dict:
+        cursor = self.conn.cursor()
+        query = "SELECT * FROM " + table + " WHERE id = " + str(id) + ";"
+        cursor.execute(query)
+        response = cursor.fetchall()
+        cursor.close()
+        response = list(map(dict, response))[0]
+        return response
