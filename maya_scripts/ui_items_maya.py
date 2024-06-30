@@ -266,11 +266,17 @@ class ItemWidget(QWidget):
             return
 
         if import_as == QMessageBox.Yes:  # Normal import
-            self.create_material()
+            material_info = self.database.get_item_of_table_by_id(
+                "Materials", self.item["id"]
+            )
+            self.create_material(material_info)
             return
 
         if import_as == QMessageBox.No:  # import and assign
-            shaderSG = self.create_material()
+            material_info = self.database.get_item_of_table_by_id(
+                "Materials", self.item["id"]
+            )
+            shaderSG = self.create_material(material_info)
             self.assign_material(objects, shaderSG)
             return
 
