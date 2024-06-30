@@ -59,7 +59,7 @@ class Ui_Form(object):
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.img_l = QLabel(self.frame)
         self.img_l.setObjectName(u"img_l")
-        self.img_l.setPixmap(QPixmap(u":/icons/ui/ressources/model.png"))
+        self.img_l.setPixmap(QPixmap(u":/icons/ui/ressources/error.png"))
         self.img_l.setAlignment(Qt.AlignCenter)
 
         self.gridLayout.addWidget(self.img_l, 1, 0, 1, 1)

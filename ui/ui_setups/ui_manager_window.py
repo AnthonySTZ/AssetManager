@@ -126,6 +126,7 @@ class Ui_MainWindow(object):
         self.items_lw.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.items_lw.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.items_lw.setMovement(QListView.Free)
+        self.items_lw.setViewMode(QListView.IconMode)
 
         self.horizontalLayout.addWidget(self.items_lw)
 

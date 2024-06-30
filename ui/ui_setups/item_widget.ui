@@ -103,7 +103,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="../../ressources.qrc">:/icons/ui/ressources/model.png</pixmap>
+         <pixmap resource="../../ressources.qrc">:/icons/ui/ressources/error.png</pixmap>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
