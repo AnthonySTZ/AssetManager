@@ -219,3 +219,37 @@ class MainWindow(QMainWindow):
             self.refresh_items()
         except AttributeError:
             pass
+
+    def get_file_name(self, path: str) -> str:
+        last_slash = path[::-1].find("/")
+        last_point = path[::-1].find(".")
+        file_name = path[-last_slash : -last_point - 1]
+        return file_name
+
+    def get_file_extension(self, path: str) -> str:
+        extension_index = path[::-1].find(".")
+        return path[-extension_index - 1 :]
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+
+        model_type = [".fbx", ".obj", ".abc"]
+        texture_type = [".exr", ".jpg", ".png", ".tif", ".tiff"]
+
+        files = [u.toLocalFile() for u in event.mimeData().urls()]
+        for f in files:  # Import Directly to database without opening popup
+            extension = self.get_file_extension(f)
+            file_name = self.get_file_name(f)
+            if extension in model_type:
+                self.database_handler.add_asset(file_name, f)
+                continue
+            if extension in texture_type:
+                self.database_handler.add_texture(file_name, f)
+                continue
+
+        self.refresh_items()

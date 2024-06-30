@@ -54,10 +54,12 @@ class ItemWidget(QWidget):
             obj_list = all_obj - all_old_obj
         return obj_list
 
-    def import_as_reference(self) -> None:
-        obj_list = []
+    def normal_import(self, is_reference: bool) -> list:
         all_old_obj = set(cmds.ls(type="transform"))
-        cmds.file(self.item["path"], r=True, namespace=":")
+        if is_reference:
+            cmds.file(self.item["path"], r=True, namespace=":")
+        else:
+            cmds.file(self.item["path"], i=True, namespace=":")
         all_obj = cmds.ls()
         all_obj = set(cmds.ls(type="transform"))
         obj_list = all_obj - all_old_obj
@@ -65,12 +67,12 @@ class ItemWidget(QWidget):
 
     def import_asset(self, as_reference=False) -> None:
         if as_reference:
-            obj = self.import_as_reference()
+            obj = self.normal_import(is_reference=True)
         else:
             if self.item["path"].endswith(".fbx"):
                 obj = self.import_fbx()
             else:
-                obj = cmds.file(self.item["path"], i=True, namespace=":")
+                obj = self.normal_import(is_reference=False)
 
         if self.item["material_id"] is None:
             return
