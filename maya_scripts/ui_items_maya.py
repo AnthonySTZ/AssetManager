@@ -47,20 +47,24 @@ class ItemWidget(QWidget):
 
     def import_fbx(self) -> list:
         obj_list = []
-        all_old_obj = cmds.ls()
+        all_old_obj = cmds.ls(type="transform")
         import_status = mel.eval('FBXImport -f "' + self.item["path"] + '"')
         if import_status == "Success":
-            all_obj = cmds.ls()
+            all_obj = cmds.ls(type="transform")
             for obj_name in all_obj:
                 if obj_name not in all_old_obj:
                     obj_list.append(obj_name)
         return obj_list
 
-    def normal_import(self) -> None:
-        if self.item["path"].endswith(".fbx"):
-            obj = self.import_fbx()
+    def import_asset(self, as_reference=False) -> None:
+        if as_reference:
+            obj = self.import_as_reference()
         else:
-            obj = cmds.file(self.item["path"], i=True, namespace=":")
+            if self.item["path"].endswith(".fbx"):
+                obj = self.import_fbx()
+            else:
+                obj = cmds.file(self.item["path"], i=True, namespace=":")
+
         if self.item["material_id"] is None:
             return
 
@@ -72,7 +76,14 @@ class ItemWidget(QWidget):
         self.assign_material(obj, shader)
 
     def import_as_reference(self) -> None:
-        pass
+        obj_list = []
+        all_old_obj = cmds.ls()
+        cmds.file(self.item["path"], r=True, namespace=":")
+        all_obj = cmds.ls()
+        for obj_name in all_obj:
+            if obj_name not in all_old_obj:
+                obj_list.append(obj_name)
+        return obj_list
 
     def create_file_texture(self, file_texture_name):
         tex = cmds.shadingNode(
@@ -239,11 +250,11 @@ class ItemWidget(QWidget):
             return
 
         if import_as == QMessageBox.Yes:  # Normal import
-            self.normal_import()
+            self.import_asset()
             return
 
         if import_as == QMessageBox.No:  # reference import
-            self.import_as_reference()
+            self.import_asset(as_reference=True)
             return
 
     def import_material_dialog(self, objects) -> None:
