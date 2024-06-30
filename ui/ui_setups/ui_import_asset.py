@@ -25,6 +25,21 @@ class Ui_Dialog(object):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(400, 300)
+        Dialog.setStyleSheet(u"QDialog{\n"
+"	background-color: rgb(42, 42, 42);\n"
+"}\n"
+"\n"
+"QLabel{\n"
+"\n"
+"	color: rgb(220, 220, 220);\n"
+"}\n"
+"\n"
+"QPushButton{\n"
+"\n"
+"	color: rgb(220, 220, 220);\n"
+"	background-color: rgb(40, 40, 40);\n"
+"\n"
+"}")
         self.horizontalLayout = QHBoxLayout(Dialog)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.gridLayout = QGridLayout()

@@ -44,6 +44,7 @@ class ImportAssetDialog(DialogTemplate):
         self.item = existing_item
         if self.item == {}:
             self.ui.delete_btn.hide()
+            self.select_file()
         else:
             self.ui.delete_btn.clicked.connect(self.delete_item)
 
@@ -60,15 +61,24 @@ class ImportAssetDialog(DialogTemplate):
             return
         self.ui.material_cb.setCurrentIndex(self.materials[self.item["material_id"]])
 
+    def get_file_name(self, path: str) -> str:
+        last_slash = path[::-1].find("/")
+        last_point = path[::-1].find(".")
+        file_name = path[-last_slash : -last_point - 1]
+        return file_name
+
     def select_file(self) -> None:
         file_path = QFileDialog.getOpenFileName(
             self,
             "Select file",
-            "/home/boby/Documents/Projects/AssetManager/",
+            "A:/Programming/AssetManager/",
             "(*.fbx *.obj *.abc)",
         )[0]
         if file_path:
             self.ui.path_te.setText(file_path)
+            if self.ui.name_te.toPlainText() == "":
+                file_name = self.get_file_name(file_path)
+                self.ui.name_te.setText(file_name)
 
     def everything_is_correct(self) -> bool:
         if self.ui.name_te.toPlainText() == "":
@@ -134,6 +144,7 @@ class ImportTextureDialog(DialogTemplate):
         self.item = existing_item
         if self.item == {}:
             self.ui.delete_btn.hide()
+            self.select_file()
         else:
             self.ui.delete_btn.clicked.connect(self.delete_item)
             self.update_infos()
@@ -142,15 +153,24 @@ class ImportTextureDialog(DialogTemplate):
         self.ui.name_te.setText(self.item["name"])
         self.ui.path_te.setText(self.item["path"])
 
+    def get_file_name(self, path: str) -> str:
+        last_slash = path[::-1].find("/")
+        last_point = path[::-1].find(".")
+        file_name = path[-last_slash : -last_point - 1]
+        return file_name
+
     def select_file(self) -> None:
         file_path = QFileDialog.getOpenFileName(
             self,
             "Select file",
-            "/home/boby/Documents/Projects/AssetManager/",
+            "A:/Programming/AssetManager/",
             "(*.exr *.jpg *.png *.tif *.tiff)",
         )[0]
         if file_path:
             self.ui.path_te.setText(file_path)
+            if self.ui.name_te.toPlainText() == "":
+                file_name = self.get_file_name(file_path)
+                self.ui.name_te.setText(file_name)
 
     def everything_is_correct(self) -> bool:
         if self.ui.name_te.toPlainText() == "":

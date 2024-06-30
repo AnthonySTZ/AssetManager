@@ -13,6 +13,23 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog{
+	background-color: rgb(42, 42, 42);
+}
+
+QLabel{
+
+	color: rgb(220, 220, 220);
+}
+
+QPushButton{
+
+	color: rgb(220, 220, 220);
+	background-color: rgb(40, 40, 40);
+
+}</string>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
