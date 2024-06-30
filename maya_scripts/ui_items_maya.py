@@ -47,13 +47,20 @@ class ItemWidget(QWidget):
 
     def import_fbx(self) -> list:
         obj_list = []
-        all_old_obj = cmds.ls(type="transform")
+        all_old_obj = set(cmds.ls(type="transform"))
         import_status = mel.eval('FBXImport -f "' + self.item["path"] + '"')
         if import_status == "Success":
-            all_obj = cmds.ls(type="transform")
-            for obj_name in all_obj:
-                if obj_name not in all_old_obj:
-                    obj_list.append(obj_name)
+            all_obj = set(cmds.ls(type="transform"))
+            obj_list = all_obj - all_old_obj
+        return obj_list
+
+    def import_as_reference(self) -> None:
+        obj_list = []
+        all_old_obj = set(cmds.ls(type="transform"))
+        cmds.file(self.item["path"], r=True, namespace=":")
+        all_obj = cmds.ls()
+        all_obj = set(cmds.ls(type="transform"))
+        obj_list = all_obj - all_old_obj
         return obj_list
 
     def import_asset(self, as_reference=False) -> None:
@@ -74,16 +81,6 @@ class ItemWidget(QWidget):
 
         shader = self.create_material(material_info)
         self.assign_material(obj, shader)
-
-    def import_as_reference(self) -> None:
-        obj_list = []
-        all_old_obj = cmds.ls()
-        cmds.file(self.item["path"], r=True, namespace=":")
-        all_obj = cmds.ls()
-        for obj_name in all_obj:
-            if obj_name not in all_old_obj:
-                obj_list.append(obj_name)
-        return obj_list
 
     def create_file_texture(self, file_texture_name):
         tex = cmds.shadingNode(
