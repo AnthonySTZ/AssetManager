@@ -45,11 +45,22 @@ class ItemWidget(QWidget):
         icon = QPixmap(":/icons/ui/ressources/" + icon_name + ".png")
         self.ui.img_l.setPixmap(icon)
 
+    def import_fbx(self) -> list:
+        obj_list = []
+        all_old_obj = cmds.ls()
+        import_status = mel.eval('FBXImport -f "' + self.item["path"] + '"')
+        if import_status == "Success":
+            all_obj = cmds.ls()
+            for obj_name in all_obj:
+                if obj_name not in all_old_obj:
+                    obj_list.append(obj_name)
+        return obj_list
+
     def normal_import(self) -> None:
-        obj = cmds.file(
-            self.item["path"], i=True, f=True, namespace=":"
-        )  ####### obj = NONE pour fbx tant que l'utilisateur n'accepte pas le popup..... relou
-        print(obj)
+        if self.item["path"].endswith(".fbx"):
+            obj = self.import_fbx()
+        else:
+            obj = cmds.file(self.item["path"], i=True, namespace=":")
         if self.item["material_id"] is None:
             return
 
@@ -88,6 +99,56 @@ class ItemWidget(QWidget):
         cmds.connectAttr(place_2d + ".wrapV", tex + ".wrapV")
         return tex
 
+    def create_texture(
+        self,
+        textureType,
+        texture_id,
+        material,
+        connectAttribute,
+        non_color,
+        colorSpace=None,
+        is_normal=False,
+        is_disp=False,
+        shader=None,
+    ):
+        texture = self.create_file_texture(
+            textureType + "_" + self.item["name"] + "_texture"
+        )
+        if not is_disp:
+            if not is_normal:
+                if non_color:
+                    cmds.connectAttr(
+                        texture + ".outColorR", material + "." + connectAttribute
+                    )
+                else:
+                    cmds.connectAttr(
+                        texture + ".outColor", material + "." + connectAttribute
+                    )
+            else:  # Set Normal Node for normal map
+                normalmap_node = cmds.shadingNode("aiNormalMap", asTexture=True)
+                cmds.connectAttr(texture + ".outColor", normalmap_node + ".input")
+                cmds.connectAttr(
+                    normalmap_node + ".outValue", material + ".normalCamera"
+                )
+        else:  # Set Displacement Node for disp map
+            displacement_node = cmds.shadingNode("displacementShader", asShader=True)
+            cmds.connectAttr(
+                texture + ".outColorR", displacement_node + ".displacement"
+            )
+            cmds.connectAttr(
+                displacement_node + ".displacement", shader + ".displacementShader"
+            )
+
+        texture_infos = self.database.get_item_of_table_by_id("Textures", texture_id)
+        cmds.setAttr(
+            texture + ".fileTextureName",
+            texture_infos["path"],
+            type="string",
+        )
+
+        if colorSpace is not None:
+            cmds.setAttr(texture + ".colorSpace", colorSpace, type="string")
+
     def create_material(self, mat_infos=None) -> str:
         material = cmds.shadingNode(
             "aiStandardSurface", asShader=True, name=self.item["name"]
@@ -100,13 +161,59 @@ class ItemWidget(QWidget):
         if mat_infos is None:
             return shading_engine
 
-        if mat_infos["diffuse_id"] is None:
-            return shading_engine
-        else:
-            diffuse_texture = self.create_file_texture(
-                "diffuse_" + self.item["name"] + "_texture"
+        if mat_infos["diffuse_id"] is not None:
+            self.create_texture(
+                "diffuse", mat_infos["diffuse_id"], material, "baseColor", False
             )
-            cmds.connectAttr(diffuse_texture + ".outColor", material + ".baseColor")
+
+        if mat_infos["specular_id"] is not None:
+            self.create_texture(
+                "specular", mat_infos["specular_id"], material, "specular", True, "Raw"
+            )
+
+        if mat_infos["roughness_id"] is not None:
+            self.create_texture(
+                "roughness",
+                mat_infos["roughness_id"],
+                material,
+                "specularRoughness",
+                True,
+                "Raw",
+            )
+
+        if mat_infos["metalness_id"] is not None:
+            self.create_texture(
+                "metalness",
+                mat_infos["metalness_id"],
+                material,
+                "metalness",
+                True,
+                "Raw",
+            )
+
+        if mat_infos["normal_id"] is not None:
+            self.create_texture(
+                "normal",
+                mat_infos["normal_id"],
+                material,
+                "normal",
+                False,
+                "Raw",
+                True,
+            )
+
+        if mat_infos["displacement_id"] is not None:
+            self.create_texture(
+                "displacement",
+                mat_infos["displacement_id"],
+                material,
+                "displacement",
+                False,
+                "Raw",
+                False,
+                True,
+                shading_engine,
+            )
 
         return shading_engine
 
