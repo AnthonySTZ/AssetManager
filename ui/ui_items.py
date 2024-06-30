@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import QWidget, QTextEdit, QComboBox
 from PySide6.QtGui import QPixmap
-from PySide6.QtCore import QThread
 from ui.ui_setups.ui_item_widget import Ui_Form as UiItemWidget
 from ui.ui_dialogs import (
     ImportAssetDialog,

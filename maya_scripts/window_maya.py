@@ -3,6 +3,7 @@ import os
 from maya import OpenMayaUI as omui
 from shiboken2 import wrapInstance
 from PySide2 import QtUiTools, QtCore
+from PySide2.QtGui import QPixmap
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import (
     QApplication,
@@ -15,6 +16,7 @@ from PySide2.QtWidgets import (
     QListWidget,
     QAbstractItemView,
     QVBoxLayout,
+    QListView,
 )
 from functools import partial  # optional, for passing args during signal function calls
 import sys
@@ -32,8 +34,12 @@ class mainWindow(QDialog):
         super(mainWindow, self).__init__(parent)
         # Load UI file
         self.init_maya_ui(uiRelativePath)
+        self.ui.items_lw.horizontalScrollBar().setEnabled(False)
+        self.ui.items_lw.setWrapping(True)
+        self.ui.items_lw.setResizeMode(QListView.ResizeMode.Adjust)
 
         self.filter_type = {"Models": True, "Textures": True, "Materials": True}
+        self.thumbnails_cache = {}
 
         self.init_buttons()
 
@@ -67,7 +73,16 @@ class mainWindow(QDialog):
 
     def add_all_items(self) -> None:
         for item in self.items:
-            self.add_item(item)
+            if item["type"] == "Textures":
+                if "texture_" + str(item["id"]) not in self.thumbnails_cache:
+                    self.thumbnails_cache["texture_" + str(item["id"])] = QPixmap(
+                        item["path"]
+                    )
+            item_widget = ItemWidget(self.database_handler, item, self.thumbnails_cache)
+            item = QListWidgetItem(self.ui.items_lw)
+            item.setSizeHint(item_widget.size())
+            self.ui.items_lw.addItem(item)
+            self.ui.items_lw.setItemWidget(item, item_widget)
 
     def get_all_items(self) -> list[dict]:
         search_text = self.ui.search_te.toPlainText()
@@ -89,45 +104,6 @@ class mainWindow(QDialog):
             items += self.all_materials
 
         return items
-
-    def add_item_to_listWidget(self, list_widget, widget) -> None:
-        item = QListWidgetItem(list_widget)
-        item.setSizeHint(widget.size())
-        list_widget.addItem(item)
-        list_widget.setItemWidget(item, widget)
-
-    def add_item_row(self, item) -> None:
-        list_widget = QListWidget()
-        list_widget.setFlow(QListWidget.LeftToRight)
-        # list_widget.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        list_widget.horizontalScrollBar().setEnabled(False)
-        list_widget.setFocusPolicy(Qt.FocusPolicy.NoFocus)
-        list_widget.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
-        list_widget.setFixedSize(
-            self.ui.items_lw.width(), ItemWidget(self.database_handler).height() + 10
-        )
-        self.add_item_to_listWidget(self.ui.items_lw, list_widget)
-
-    def is_item_row_full(self):
-
-        last_row_item = self.ui.items_lw.item(self.ui.items_lw.count() - 1)
-        last_row = self.ui.items_lw.itemWidget(last_row_item)
-        last_row_item_nb = last_row.count()
-        widget_width = ItemWidget(self.database_handler).width()
-        return (last_row_item_nb + 1) * widget_width > self.ui.items_lw.width()
-
-    def add_item(self, item) -> None:
-        if self.ui.items_lw.count() == 0:
-            self.add_item_row(item)
-
-        elif self.is_item_row_full():
-            self.add_item_row(item)
-
-        item_widget = ItemWidget(self.database_handler, item)
-        last_row_item = self.ui.items_lw.item(self.ui.items_lw.count() - 1)
-        self.add_item_to_listWidget(
-            self.ui.items_lw.itemWidget(last_row_item), item_widget
-        )
 
     def closeEvent(self, event) -> None:
         self.database_handler.close_connection()
@@ -166,13 +142,6 @@ class mainWindow(QDialog):
             self.items = self.get_all_items()
         self.ui.items_lw.clear()
         self.add_all_items()
-
-    def resizeEvent(self, event) -> None:
-        QDialog.resizeEvent(self, event)
-        try:  # Check if resize is called before the window is created
-            self.refresh_items()
-        except AttributeError:
-            pass
 
 
 def openWindow():

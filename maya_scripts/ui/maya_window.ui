@@ -145,6 +145,9 @@ QScrollBar::sub-line:vertical {
            <property name="movement">
             <enum>QListView::Free</enum>
            </property>
+           <property name="viewMode">
+            <enum>QListView::IconMode</enum>
+           </property>
           </widget>
          </item>
         </layout>

@@ -9,11 +9,14 @@ import maya.mel as mel
 
 
 class ItemWidget(QWidget):
-    def __init__(self, database: DatabaseHandler, item=None) -> None:
+    def __init__(
+        self, database: DatabaseHandler, item=None, thumbnails_cache={}
+    ) -> None:
         super().__init__()
         self.ui = UiItemWidget()
         self.ui.setupUi(self)
         self.database = database
+        self.thumbnails_cache = thumbnails_cache
 
         self.item = item
         self.init_texts()
@@ -39,10 +42,18 @@ class ItemWidget(QWidget):
             self.set_icon("texture")
 
     def set_icon(self, icon_name) -> None:
+        icon = QPixmap(f":/icons/ui/ressources/{icon_name}")
         if "path" in self.item:
             if not os.path.exists(self.item["path"]):
-                icon_name = "error"
-        icon = QPixmap(":/icons/ui/ressources/" + icon_name + ".png")
+                icon = QPixmap(":/icons/ui/ressources/error.png")
+                self.ui.img_l.setPixmap(icon)
+            else:
+                if self.item["type"] == "Textures" and not self.item["path"].endswith(
+                    ".exr"
+                ):
+                    icon = self.thumbnails_cache["texture_" + str(self.item["id"])]
+                else:
+                    icon = QPixmap(f":/icons/ui/ressources/{icon_name}")
         self.ui.img_l.setPixmap(icon)
 
     def import_fbx(self) -> list:
