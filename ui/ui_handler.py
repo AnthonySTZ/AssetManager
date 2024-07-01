@@ -2,8 +2,8 @@
 Scripts for Handling main window
 """
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Qt, QEvent
+from PySide6.QtGui import QPixmap, QColor
 from PySide6.QtWidgets import (
     QMainWindow,
     QDialog,
@@ -14,6 +14,8 @@ from PySide6.QtWidgets import (
     QListWidget,
     QAbstractItemView,
     QListView,
+    QGraphicsDropShadowEffect,
+    QPushButton,
 )
 from ui.ui_setups.ui_manager_window import Ui_MainWindow
 from ui.ui_dialogs import (
@@ -39,9 +41,25 @@ class MainWindow(QMainWindow):
         self.filter_type = {"Models": True, "Textures": True, "Materials": True}
         self.thumbnails_cache = {}
 
+        self.init_shadow_buttons()
         self.init_buttons()
         self.show()
         self.init_database()
+
+    def enable_hover_event(self, button: QPushButton) -> None:
+        button.setAttribute(Qt.WA_Hover, True)
+        button.installEventFilter(self)
+
+    def init_shadow_buttons(self) -> None:
+        self.shadow_effect = QGraphicsDropShadowEffect()
+        self.shadow_effect.setBlurRadius(10)
+        self.shadow_effect.setXOffset(0)
+        self.shadow_effect.setYOffset(5)
+        self.shadow_effect.setColor(QColor(0, 0, 0, 50))
+
+        self.enable_hover_event(self.ui.asset_btn)
+        self.enable_hover_event(self.ui.texture_btn)
+        self.enable_hover_event(self.ui.material_btn)
 
     def init_buttons(self) -> None:
         self.ui.asset_btn.clicked.connect(self.import_asset_event)
@@ -151,9 +169,13 @@ class MainWindow(QMainWindow):
     def add_all_items(self) -> None:
         for item in self.items:
             if item["type"] == "Textures":
-                if "texture_" + str(item["id"]) not in self.thumbnails_cache:
-                    self.thumbnails_cache["texture_" + str(item["id"])] = QPixmap(
-                        item["path"]
+                if "texture_" + str(
+                    item["id"]
+                ) not in self.thumbnails_cache and not item["path"].endswith(".exr"):
+                    tmp_item = ItemWidget(self, self.database_handler)
+                    map = QPixmap(item["path"])
+                    self.thumbnails_cache["texture_" + str(item["id"])] = (
+                        map.scaledToWidth(tmp_item.frameGeometry().width())
                     )
             item_widget = ItemWidget(
                 self, self.database_handler, item, self.thumbnails_cache
@@ -223,3 +245,17 @@ class MainWindow(QMainWindow):
                 continue
 
         self.refresh_items()
+
+    def eventFilter(self, source, event):
+        if (
+            source == self.ui.asset_btn
+            or source == self.ui.texture_btn
+            or source == self.ui.material_btn
+        ):
+            if event.type() == QEvent.Enter:
+                source.setGraphicsEffect(self.shadow_effect)
+                source.raise_()
+                source.graphicsEffect().setEnabled(True)
+            elif event.type() == QEvent.Leave:
+                source.graphicsEffect().setEnabled(False)
+        return super().eventFilter(source, event)

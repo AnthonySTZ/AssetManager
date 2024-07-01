@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1060</width>
-    <height>602</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow{
-	background-color: rgb(42, 42, 42);
+	background-color: rgb(40, 40, 40);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -61,16 +61,36 @@
       </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="asset_btn">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">QPushButton{
 
-	color: rgb(220, 220, 220);
-	background-color: rgb(40, 40, 40);
+	color: rgb(200, 200, 200);
+	background-color: rgba(60, 60, 60, 0);
+	border-radius: 3px;
+	padding: 5px;
 
+}
+
+QPushButton:hover{
+
+	color: rgb(220, 220, 220);
+	background-color: rgba(60, 60, 60, 200);
 }</string>
         </property>
         <property name="text">
          <string>Import Asset</string>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -79,9 +99,17 @@
         <property name="styleSheet">
          <string notr="true">QPushButton{
 
-	color: rgb(220, 220, 220);
-	background-color: rgb(40, 40, 40);
+	color: rgb(200, 200, 200);
+	background-color: rgba(60, 60, 60, 0);
+	border-radius: 3px;
+	padding: 5px;
 
+}
+
+QPushButton:hover{
+
+	color: rgb(220, 220, 220);
+	background-color: rgba(60, 60, 60, 200);
 }</string>
         </property>
         <property name="text">
@@ -179,9 +207,17 @@ QScrollBar::sub-line:vertical {
         <property name="styleSheet">
          <string notr="true">QPushButton{
 
-	color: rgb(220, 220, 220);
-	background-color: rgb(40, 40, 40);
+	color: rgb(200, 200, 200);
+	background-color: rgba(60, 60, 60, 0);
+	border-radius: 3px;
+	padding: 5px;
 
+}
+
+QPushButton:hover{
+
+	color: rgb(220, 220, 220);
+	background-color: rgba(60, 60, 60, 200);
 }</string>
         </property>
         <property name="text">
@@ -251,8 +287,8 @@ background-color: rgb(25, 25, 25);
            </property>
            <property name="iconSize">
             <size>
-             <width>24</width>
-             <height>24</height>
+             <width>20</width>
+             <height>20</height>
             </size>
            </property>
            <property name="checkable">
@@ -283,8 +319,8 @@ background-color: rgb(25, 25, 25);
            </property>
            <property name="iconSize">
             <size>
-             <width>24</width>
-             <height>24</height>
+             <width>20</width>
+             <height>20</height>
             </size>
            </property>
            <property name="checkable">
@@ -303,8 +339,8 @@ background-color: rgb(25, 25, 25);
            </property>
            <property name="iconSize">
             <size>
-             <width>24</width>
-             <height>24</height>
+             <width>20</width>
+             <height>20</height>
             </size>
            </property>
            <property name="checkable">
@@ -323,8 +359,8 @@ background-color: rgb(25, 25, 25);
            </property>
            <property name="iconSize">
             <size>
-             <width>24</width>
-             <height>24</height>
+             <width>20</width>
+             <height>20</height>
             </size>
            </property>
            <property name="checkable">

@@ -25,9 +25,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1060, 602)
+        MainWindow.resize(1060, 700)
         MainWindow.setStyleSheet(u"QMainWindow{\n"
-"	background-color: rgb(42, 42, 42);\n"
+"	background-color: rgb(40, 40, 40);\n"
 "}")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -56,12 +56,22 @@ class Ui_MainWindow(object):
 
         self.asset_btn = QPushButton(self.centralwidget)
         self.asset_btn.setObjectName(u"asset_btn")
+        self.asset_btn.setMinimumSize(QSize(0, 0))
         self.asset_btn.setStyleSheet(u"QPushButton{\n"
 "\n"
-"	color: rgb(220, 220, 220);\n"
-"	background-color: rgb(40, 40, 40);\n"
+"	color: rgb(200, 200, 200);\n"
+"	background-color: rgba(60, 60, 60, 0);\n"
+"	border-radius: 3px;\n"
+"	padding: 5px;\n"
 "\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"\n"
+"	color: rgb(220, 220, 220);\n"
+"	background-color: rgba(60, 60, 60, 200);\n"
 "}")
+        self.asset_btn.setFlat(False)
 
         self.gridLayout_2.addWidget(self.asset_btn, 0, 0, 1, 1)
 
@@ -69,9 +79,17 @@ class Ui_MainWindow(object):
         self.texture_btn.setObjectName(u"texture_btn")
         self.texture_btn.setStyleSheet(u"QPushButton{\n"
 "\n"
-"	color: rgb(220, 220, 220);\n"
-"	background-color: rgb(40, 40, 40);\n"
+"	color: rgb(200, 200, 200);\n"
+"	background-color: rgba(60, 60, 60, 0);\n"
+"	border-radius: 3px;\n"
+"	padding: 5px;\n"
 "\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"\n"
+"	color: rgb(220, 220, 220);\n"
+"	background-color: rgba(60, 60, 60, 200);\n"
 "}")
 
         self.gridLayout_2.addWidget(self.texture_btn, 0, 1, 1, 1)
@@ -137,9 +155,17 @@ class Ui_MainWindow(object):
         self.material_btn.setObjectName(u"material_btn")
         self.material_btn.setStyleSheet(u"QPushButton{\n"
 "\n"
-"	color: rgb(220, 220, 220);\n"
-"	background-color: rgb(40, 40, 40);\n"
+"	color: rgb(200, 200, 200);\n"
+"	background-color: rgba(60, 60, 60, 0);\n"
+"	border-radius: 3px;\n"
+"	padding: 5px;\n"
 "\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"\n"
+"	color: rgb(220, 220, 220);\n"
+"	background-color: rgba(60, 60, 60, 200);\n"
 "}")
 
         self.gridLayout_2.addWidget(self.material_btn, 0, 2, 1, 1)
@@ -172,7 +198,7 @@ class Ui_MainWindow(object):
         icon = QIcon()
         icon.addFile(u":/icons/ui/ressources/all.png", QSize(), QIcon.Normal, QIcon.Off)
         self.all_check.setIcon(icon)
-        self.all_check.setIconSize(QSize(24, 24))
+        self.all_check.setIconSize(QSize(20, 20))
         self.all_check.setCheckable(True)
         self.all_check.setChecked(True)
         self.all_check.setFlat(False)
@@ -186,7 +212,7 @@ class Ui_MainWindow(object):
         icon1 = QIcon()
         icon1.addFile(u":/icons/ui/ressources/model.png", QSize(), QIcon.Normal, QIcon.Off)
         self.models_check.setIcon(icon1)
-        self.models_check.setIconSize(QSize(24, 24))
+        self.models_check.setIconSize(QSize(20, 20))
         self.models_check.setCheckable(True)
 
         self.horizontalLayout_4.addWidget(self.models_check)
@@ -196,7 +222,7 @@ class Ui_MainWindow(object):
         icon2 = QIcon()
         icon2.addFile(u":/icons/ui/ressources/texture.png", QSize(), QIcon.Normal, QIcon.Off)
         self.textures_check.setIcon(icon2)
-        self.textures_check.setIconSize(QSize(24, 24))
+        self.textures_check.setIconSize(QSize(20, 20))
         self.textures_check.setCheckable(True)
 
         self.horizontalLayout_4.addWidget(self.textures_check)
@@ -206,7 +232,7 @@ class Ui_MainWindow(object):
         icon3 = QIcon()
         icon3.addFile(u":/icons/ui/ressources/material.png", QSize(), QIcon.Normal, QIcon.Off)
         self.materials_check.setIcon(icon3)
-        self.materials_check.setIconSize(QSize(24, 24))
+        self.materials_check.setIconSize(QSize(20, 20))
         self.materials_check.setCheckable(True)
 
         self.horizontalLayout_4.addWidget(self.materials_check)
@@ -220,6 +246,9 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
+
+        self.asset_btn.setDefault(False)
+
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi

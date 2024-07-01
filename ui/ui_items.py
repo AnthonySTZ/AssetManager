@@ -1,6 +1,14 @@
-from PySide6.QtWidgets import QWidget, QTextEdit, QComboBox, QGraphicsDropShadowEffect
+from PySide6.QtWidgets import (
+    QWidget,
+    QTextEdit,
+    QComboBox,
+    QGraphicsDropShadowEffect,
+    QLabel,
+    QStackedWidget,
+    QHBoxLayout,
+)
 from PySide6.QtGui import QPixmap, QColor
-from PySide6.QtCore import QEvent
+from PySide6.QtCore import QEvent, QPropertyAnimation, QEasingCurve, Qt
 from ui.ui_setups.ui_item_widget import Ui_Form as UiItemWidget
 from ui.ui_dialogs import (
     ImportAssetDialog,
@@ -11,6 +19,7 @@ from ui.ui_dialogs import (
 from bdd.database_handler import DatabaseHandler
 import os
 import ressources_rc
+import PySide6
 
 
 class ItemWidget(QWidget):
@@ -41,8 +50,6 @@ class ItemWidget(QWidget):
     def init_texts(self) -> None:
         if self.item is None:
             return
-
-        self.ui.type_l.setText(self.item["type"])
         self.ui.name_l.setText(self.item["name"])
 
         self.init_type()
