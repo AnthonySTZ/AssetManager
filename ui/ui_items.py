@@ -1,5 +1,6 @@
-from PySide6.QtWidgets import QWidget, QTextEdit, QComboBox
-from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QWidget, QTextEdit, QComboBox, QGraphicsDropShadowEffect
+from PySide6.QtGui import QPixmap, QColor
+from PySide6.QtCore import QEvent
 from ui.ui_setups.ui_item_widget import Ui_Form as UiItemWidget
 from ui.ui_dialogs import (
     ImportAssetDialog,
@@ -25,6 +26,17 @@ class ItemWidget(QWidget):
 
         self.item = item
         self.init_texts()
+        self.set_shadow()
+
+    def set_shadow(self) -> None:
+        effect = QGraphicsDropShadowEffect()
+        effect.setBlurRadius(10)
+        effect.setXOffset(0)
+        effect.setYOffset(5)
+        effect.setColor(QColor(0, 0, 0, 80))
+        self.ui.frame.setGraphicsEffect(effect)
+        self.ui.frame.raise_()
+        self.ui.frame.graphicsEffect().setEnabled(False)
 
     def init_texts(self) -> None:
         if self.item is None:
@@ -37,13 +49,13 @@ class ItemWidget(QWidget):
 
     def init_type(self) -> None:
         if self.item["type"] == "Models":
-            self.ui.type_l.setStyleSheet("background-color: rgb(100, 0, 0);")
+            # self.ui.type_l.setStyleSheet("background-color: rgb(100, 0, 0);")
             self.set_icon("model")
         elif self.item["type"] == "Materials":
-            self.ui.type_l.setStyleSheet("background-color: rgb(0, 100, 0);")
+            # self.ui.type_l.setStyleSheet("background-color: rgb(0, 100, 0);")
             self.set_icon("material")
         else:
-            self.ui.type_l.setStyleSheet("background-color: rgb(0, 0, 100);")
+            # self.ui.type_l.setStyleSheet("background-color: rgb(0, 0, 100);")
             self.set_icon("texture")
 
     def set_icon(self, icon_name) -> None:
@@ -60,6 +72,12 @@ class ItemWidget(QWidget):
                 else:
                     icon = QPixmap(f":/icons/ui/ressources/{icon_name}")
         self.ui.img_l.setPixmap(icon)
+
+    def enterEvent(self, event):
+        self.ui.frame.graphicsEffect().setEnabled(True)
+
+    def leaveEvent(self, event):
+        self.ui.frame.graphicsEffect().setEnabled(False)
 
     def mouseReleaseEvent(self, event) -> None:
         if self.item is None:

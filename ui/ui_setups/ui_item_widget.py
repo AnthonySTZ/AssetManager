@@ -41,16 +41,19 @@ class Ui_Form(object):
 "	color: rgb(246, 245, 244);\n"
 "}\n"
 ".QFrame{\n"
-"	border: 2px solid rgb(100, 100, 100);\n"
-"	background-color: rgb(36, 36, 36);\n"
-"\n"
+"	background-color: rgb(32, 32, 32);\n"
+"	margin: 2px;\n"
+"	padding: 0px\n"
 "}\n"
 ".QFrame:hover{\n"
-"	border: 2px solid rgb(255, 190, 111);\n"
+"	border: 2px outset rgb(100, 100, 100);\n"
+"	border-radius: 10px;\n"
+"	margin: 0px;\n"
+"	padding: 2px;\n"
 "}\n"
 "")
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Plain)
+        self.frame.setFrameShape(QFrame.Panel)
+        self.frame.setFrameShadow(QFrame.Sunken)
         self.frame.setLineWidth(0)
         self.frame.setMidLineWidth(0)
         self.gridLayout = QGridLayout(self.frame)
@@ -59,6 +62,9 @@ class Ui_Form(object):
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.img_l = QLabel(self.frame)
         self.img_l.setObjectName(u"img_l")
+        self.img_l.setFrameShadow(QFrame.Sunken)
+        self.img_l.setLineWidth(1)
+        self.img_l.setMidLineWidth(0)
         self.img_l.setPixmap(QPixmap(u":/icons/ui/ressources/error.png"))
         self.img_l.setAlignment(Qt.AlignCenter)
 
@@ -66,6 +72,7 @@ class Ui_Form(object):
 
         self.name_l = QLabel(self.frame)
         self.name_l.setObjectName(u"name_l")
+        self.name_l.setMinimumSize(QSize(0, 25))
         self.name_l.setMaximumSize(QSize(16777215, 25))
         self.name_l.setAlignment(Qt.AlignCenter)
 
@@ -73,6 +80,7 @@ class Ui_Form(object):
 
         self.type_l = QLabel(self.frame)
         self.type_l.setObjectName(u"type_l")
+        self.type_l.setMinimumSize(QSize(0, 25))
         self.type_l.setMaximumSize(QSize(16777215, 25))
         self.type_l.setAlignment(Qt.AlignCenter)
 
