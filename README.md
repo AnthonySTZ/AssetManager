@@ -25,7 +25,7 @@ Once clicked on the **Import Texture** button. It will show a window where you c
 ![Import Texture](./assets/readme/import_texture.jpg)
 
 
-## Note that for assets or textures, you can also drag and drop files directly into the app to import them
+### Note that for assets or textures, you can also drag and drop files directly into the app to import them
 
 
 ### Create Material
@@ -35,4 +35,4 @@ Once clicked on the **Create Material** button. It will show a window where you 
 ![Create Material](./assets/readme/create_material.jpg)
 
 
-**Note that you can edit at any time any items by clicking on it**
+### Note that you can edit at any time any items by clicking on it
