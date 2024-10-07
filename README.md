@@ -36,3 +36,17 @@ Once clicked on the **Create Material** button. It will show a window where you 
 
 
 ### Note that you can edit at any time any items by clicking on it
+
+## Maya Plugin
+
+Once in Maya, you can open the **Asset Manager Window**. In this window, you can click on any item you want to import.
+
+![Maya Plugin](./assets/readme/maya.jpg)
+
+For meshes you can choose to import **as reference**.
+
+![Maya Mesh](./assets/readme/maya_mesh.jpg)
+
+For materials you can choose to import and **assign materials to selected meshes**.
+
+![Maya Material](./assets/readme/maya_material.jpg)
