@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
         self.shadow_effect = QGraphicsDropShadowEffect()
         self.shadow_effect.setBlurRadius(10)
         self.shadow_effect.setXOffset(0)
-        self.shadow_effect.setYOffset(5)
+        self.shadow_effect.setYOffset(3)
         self.shadow_effect.setColor(QColor(0, 0, 0, 50))
 
         self.enable_hover_event(self.ui.asset_btn)
